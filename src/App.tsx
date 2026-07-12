@@ -69,15 +69,13 @@ import {
 } from 'firebase/firestore';
 import { Project } from './types/Project';
 import { 
-  signInWithPopup, 
-  GoogleAuthProvider, 
   onAuthStateChanged,
   signOut,
   User,
   signInWithEmailAndPassword
 } from 'firebase/auth';
 
-const AUTHORIZED_EMAILS = ["mesfede@gmail.com", "contacto@unke.com.ar", "unkedcv@gmail.com"];
+const AUTHORIZED_EMAILS = ["unkedcv@gmail.com"];
 
 const RenderMainArea = ({ mainArea, className = "" }: { mainArea: string, className?: string }) => {
   if (!mainArea) return null;
@@ -2589,21 +2587,6 @@ const AdminPanel = () => {
   const [loginError, setLoginError] = useState<string | null>(null);
   const [errorCode, setErrorCode] = useState<string | null>(null);
 
-  const handleLogin = async () => {
-    const provider = new GoogleAuthProvider();
-    setLoginError(null);
-    setErrorCode(null);
-    try {
-      await signInWithPopup(auth, provider);
-    } catch (error: any) {
-      console.error("Login failed:", error);
-      setLoginError(error instanceof Error ? error.message : "Error desconocido");
-      if (error && typeof error === 'object' && 'code' in error) {
-        setErrorCode(error.code);
-      }
-    }
-  };
-
   const handleEmailLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoginError(null);
@@ -2759,20 +2742,7 @@ const AdminPanel = () => {
             </Button>
           </form>
 
-          <div className="relative mb-4">
-            <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t border-primary/10"></span>
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-white px-2 text-primary/40 text-[10px]">O continuar con</span>
-            </div>
-          </div>
-
-          <Button onClick={handleLogin} className="bg-white border border-primary/10 hover:bg-primary/5 text-primary h-12 rounded-xl flex items-center gap-3">
-            <Globe size={18} />
-            Google
-          </Button>
-          <Link to="/" className="text-center text-primary/40 text-sm hover:text-accent flex items-center justify-center gap-2 mt-4">
+          <Link to="/" className="text-center text-primary/40 text-sm hover:text-accent flex items-center justify-center gap-2 mt-2">
             <ArrowRight size={14} className="rotate-180" /> Volver a la web
           </Link>
         </div>

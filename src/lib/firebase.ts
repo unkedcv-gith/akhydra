@@ -13,6 +13,8 @@ const firebaseConfig = {
   measurementId: firebaseConfigData.measurementId,
 };
 
+console.log("Firebase config initialized:", { ...firebaseConfig, apiKey: firebaseConfig.apiKey ? `${firebaseConfig.apiKey.substring(0, 5)}...` : "undefined" });
+
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 

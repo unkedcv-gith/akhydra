@@ -61,7 +61,9 @@ import {
   updateDoc, 
   serverTimestamp,
   getDoc,
-  onSnapshot
+  onSnapshot,
+  Timestamp,
+  writeBatch
 } from 'firebase/firestore';
 import { Project } from './types/Project';
 import { 
@@ -72,6 +74,8 @@ import {
   User,
   signInWithEmailAndPassword
 } from 'firebase/auth';
+
+const AUTHORIZED_EMAILS = ["mesfede@gmail.com", "contacto@unke.com.ar", "unkedcv@gmail.com"];
 
 const RenderMainArea = ({ mainArea, className = "" }: { mainArea: string, className?: string }) => {
   if (!mainArea) return null;
@@ -352,7 +356,7 @@ const Navbar = () => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (u) => {
-      setIsAdmin(!!u);
+      setIsAdmin(!!(u && u.email && AUTHORIZED_EMAILS.includes(u.email)));
     });
     return () => unsubscribe();
   }, []);
@@ -507,25 +511,27 @@ const Navbar = () => {
   const [latestProject, setLatestProject] = useState<Project | null>(null);
 
   useEffect(() => {
-    const q = query(collection(db, 'projects'));
-    const unsubscribe = onSnapshot(q, (snap) => {
-      if (!snap.empty) {
-        const projectsData = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }) as Project);
-        projectsData.sort((a, b) => {
-          const orderA = a.order ?? 999;
-          const orderB = b.order ?? 999;
-          if (orderA !== orderB) return orderA - orderB;
-          return (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0);
-        });
-        setLatestProject(projectsData[0]);
-      } else {
-        setLatestProject(null);
+    const fetchLatest = async () => {
+      try {
+        const q = query(collection(db, 'projects'));
+        const snap = await getDocs(q);
+        if (!snap.empty) {
+          const projectsData = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }) as Project);
+          projectsData.sort((a, b) => {
+            const orderA = a.order ?? 999;
+            const orderB = b.order ?? 999;
+            if (orderA !== orderB) return orderA - orderB;
+            return (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0);
+          });
+          setLatestProject(projectsData[0]);
+        } else {
+          setLatestProject(null);
+        }
+      } catch (err) {
+        console.error("Error listening to featured project:", err);
       }
-    }, (err) => {
-      console.error("Error listening to featured project:", err);
-    });
-    
-    return () => unsubscribe();
+    };
+    fetchLatest();
   }, []);
 
   const slides = [
@@ -2029,6 +2035,7 @@ const Footer = () => {
 const PortfolioPage = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
+  const [visibleCount, setVisibleCount] = useState(12);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -2079,9 +2086,10 @@ const PortfolioPage = () => {
             <p className="text-primary/40 font-mono text-sm animate-pulse">CARGANDO_PORTFOLIO...</p>
           </div>
         ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
-            {projects.length > 0 ? (
-              projects.map((p) => (
+          <>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
+              {projects.length > 0 ? (
+                projects.slice(0, visibleCount).map((p) => (
                 <motion.div
                   key={p.id}
                   initial={{ opacity: 0, y: 20 }}
@@ -2133,6 +2141,19 @@ const PortfolioPage = () => {
               </div>
             )}
           </div>
+          
+          {projects.length > visibleCount && (
+            <div className="flex justify-center mt-16">
+              <Button 
+                onClick={() => setVisibleCount(v => v + 12)}
+                variant="outline"
+                className="px-8 h-12 rounded-xl border-accent/20 text-accent hover:bg-accent hover:text-white font-bold tracking-widest uppercase transition-all duration-300"
+              >
+                Cargar más proyectos
+              </Button>
+            </div>
+          )}
+          </>
         )}
       </div>
     </div>
@@ -2417,6 +2438,8 @@ const AdminPanel = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [importMessage, setImportMessage] = useState<{type: 'success' | 'error', text: string} | null>(null);
+  const [visibleCount, setVisibleCount] = useState(10);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -2454,35 +2477,56 @@ const AdminPanel = () => {
         }
       }
 
-      const confirmRestore = window.confirm(
-        `Se encontraron ${importedProjects.length} proyectos en el archivo. ¿Estás seguro de que deseas importarlos? Esto agregará los proyectos a la base de datos actual (los duplicados con el mismo título no serán sobrescritos automáticamente).`
-      );
-
-      if (!confirmRestore) {
-        if (fileInputRef.current) fileInputRef.current.value = '';
-        return;
-      }
-
       setSaving(true);
       let importedCount = 0;
+      
+      const MAX_BATCH_SIZE = 450;
+      const chunks = [];
+      for (let i = 0; i < importedProjects.length; i += MAX_BATCH_SIZE) {
+        chunks.push(importedProjects.slice(i, i + MAX_BATCH_SIZE));
+      }
 
-      for (const p of importedProjects) {
-        const { id, ...projectData } = p;
-        const finalProject = {
-          ...projectData,
-          createdAt: projectData.createdAt || serverTimestamp(),
-          updatedAt: serverTimestamp(),
-        };
+      for (const chunk of chunks) {
+        const batch = writeBatch(db);
+        for (const p of chunk) {
+          const { id, ...projectData } = p;
+          
+          let parsedCreatedAt = projectData.createdAt;
+          if (parsedCreatedAt && typeof parsedCreatedAt === 'object' && 'seconds' in parsedCreatedAt) {
+            parsedCreatedAt = Timestamp.fromMillis(parsedCreatedAt.seconds * 1000 + (parsedCreatedAt.nanoseconds || 0) / 1000000);
+          } else if (typeof parsedCreatedAt === 'string') {
+            parsedCreatedAt = Timestamp.fromDate(new Date(parsedCreatedAt));
+          }
 
-        await addDoc(collection(db, 'projects'), finalProject);
-        importedCount++;
+          let parsedUpdatedAt = projectData.updatedAt;
+          if (parsedUpdatedAt && typeof parsedUpdatedAt === 'object' && 'seconds' in parsedUpdatedAt) {
+            parsedUpdatedAt = Timestamp.fromMillis(parsedUpdatedAt.seconds * 1000 + (parsedUpdatedAt.nanoseconds || 0) / 1000000);
+          } else if (typeof parsedUpdatedAt === 'string') {
+            parsedUpdatedAt = Timestamp.fromDate(new Date(parsedUpdatedAt));
+          }
+
+          const cleanData = JSON.parse(JSON.stringify(projectData, (key, value) => value === undefined ? null : value));
+
+          const finalProject = {
+            ...cleanData,
+            createdAt: parsedCreatedAt || serverTimestamp(),
+            updatedAt: parsedUpdatedAt || serverTimestamp(),
+          };
+
+          const newDocRef = doc(collection(db, 'projects'));
+          batch.set(newDocRef, finalProject);
+          importedCount++;
+        }
+        await batch.commit();
       }
 
       await fetchProjects();
-      alert(`¡Éxito! Se han importado ${importedCount} proyectos correctamente.`);
+      setImportMessage({ type: 'success', text: `¡Éxito! Se han importado ${importedCount} proyectos correctamente.` });
+      setTimeout(() => setImportMessage(null), 5000);
     } catch (error) {
       console.error("Error al importar el backup:", error);
-      alert("Error al importar el backup: " + (error instanceof Error ? error.message : "Error desconocido."));
+      setImportMessage({ type: 'error', text: "Error al importar el backup: " + (error instanceof Error ? error.message : "Error desconocido.") });
+      setTimeout(() => setImportMessage(null), 8000);
     } finally {
       setSaving(false);
       if (fileInputRef.current) fileInputRef.current.value = '';
@@ -2720,8 +2764,7 @@ const AdminPanel = () => {
     );
   }
 
-  const authorizedEmails = ["mesfede@gmail.com", "contacto@unke.com.ar"];
-  const isAuthorized = user.email && authorizedEmails.includes(user.email);
+  const isAuthorized = user.email && AUTHORIZED_EMAILS.includes(user.email);
   if (!isAuthorized) {
     return (
       <div className="pt-40 pb-24 flex flex-col items-center justify-center min-h-[60vh]">
@@ -2792,6 +2835,13 @@ const AdminPanel = () => {
           <Button onClick={() => signOut(auth)} variant="ghost" className="text-red-500/60 hover:text-red-500 hover:bg-red-50 h-9 px-4 rounded-lg text-sm">Cerrar Sesión</Button>
         </div>
       </div>
+
+      {importMessage && (
+        <div className={`p-4 mb-8 rounded-xl font-medium text-sm flex items-center gap-3 ${importMessage.type === 'success' ? 'bg-green-50 text-green-700 border border-green-200' : 'bg-red-50 text-red-700 border border-red-200'}`}>
+          {importMessage.type === 'success' ? <Upload size={20} /> : <div className="font-bold text-lg">!</div>}
+          {importMessage.text}
+        </div>
+      )}
 
       <div className="grid lg:grid-cols-5 gap-12">
         {/* Formulario */}
@@ -3028,7 +3078,7 @@ const AdminPanel = () => {
           
           <div className="space-y-4">
             {projects.length > 0 ? (
-              projects.map(p => (
+              projects.slice(0, visibleCount).map(p => (
                 <div 
                   key={p.id} 
                   className={`group p-4 flex items-center gap-4 rounded-3xl border-2 transition-all duration-300 ${
@@ -3126,6 +3176,18 @@ const AdminPanel = () => {
                   <ImageIcon size={32} />
                 </div>
                 <p className="text-primary/40 font-bold">Sin proyectos en la base</p>
+              </div>
+            )}
+            
+            {projects.length > visibleCount && (
+              <div className="flex justify-center mt-8">
+                <Button 
+                  onClick={() => setVisibleCount(v => v + 10)}
+                  variant="outline"
+                  className="px-6 h-10 rounded-xl border-accent/20 text-accent hover:bg-accent hover:text-white font-bold tracking-widest uppercase text-xs"
+                >
+                  Cargar más proyectos
+                </Button>
               </div>
             )}
           </div>

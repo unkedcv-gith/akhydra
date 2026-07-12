@@ -31,7 +31,11 @@ service cloud.firestore {
     }
 
     function isVerifiedUser() {
-      return isSignedIn() && request.auth.token.email == "mesfede@gmail.com";
+      return isSignedIn() && (
+        request.auth.token.email == "mesfede@gmail.com" ||
+        request.auth.token.email == "contacto@unke.com.ar" ||
+        request.auth.token.email == "unkedcv@gmail.com"
+      );
     }
 
     match /projects/{projectId} {

@@ -40,8 +40,10 @@ import {
   Linkedin,
   Facebook,
   Youtube,
-  Projector
+  Projector,
+  AlertTriangle
 } from 'lucide-react';
+import firebaseConfigData from '../firebase-applet-config.json';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -2584,24 +2586,36 @@ const AdminPanel = () => {
 
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
+  const [loginError, setLoginError] = useState<string | null>(null);
+  const [errorCode, setErrorCode] = useState<string | null>(null);
 
   const handleLogin = async () => {
     const provider = new GoogleAuthProvider();
+    setLoginError(null);
+    setErrorCode(null);
     try {
       await signInWithPopup(auth, provider);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Login failed:", error);
-      alert("Error al iniciar sesión: " + (error instanceof Error ? error.message : "Error desconocido"));
+      setLoginError(error instanceof Error ? error.message : "Error desconocido");
+      if (error && typeof error === 'object' && 'code' in error) {
+        setErrorCode(error.code);
+      }
     }
   };
 
   const handleEmailLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoginError(null);
+    setErrorCode(null);
     try {
       await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Email login failed:", error);
-      alert("Error al iniciar sesión con email: " + (error instanceof Error ? error.message : "Error desconocido"));
+      setLoginError(error instanceof Error ? error.message : "Error desconocido");
+      if (error && typeof error === 'object' && 'code' in error) {
+        setErrorCode(error.code);
+      }
     }
   };
 
@@ -2760,6 +2774,76 @@ const AdminPanel = () => {
             <ArrowRight size={14} className="rotate-180" /> Volver a la web
           </Link>
         </div>
+
+        {loginError && (
+          <div className="mt-8 p-6 rounded-2xl bg-red-50/90 border border-red-200/60 text-left space-y-4 max-w-md w-full shadow-lg">
+            <div className="flex items-center gap-2 text-red-700 font-bold text-sm">
+              <AlertTriangle size={20} className="shrink-0" />
+              <span>Error de Autenticación</span>
+            </div>
+            
+            <p className="text-xs text-red-600 font-medium whitespace-pre-wrap">
+              {loginError}
+            </p>
+            
+            {errorCode && (
+              <div className="bg-red-100/50 px-2.5 py-1.5 rounded-lg text-[10px] font-mono text-red-800 font-bold inline-block">
+                CÓDIGO: {errorCode}
+              </div>
+            )}
+            
+            <div className="pt-4 border-t border-red-200/50 text-xs text-primary/80 space-y-3">
+              <div className="font-bold text-primary flex items-center gap-1.5">
+                <span>💡 ¿Cómo solucionar este error?</span>
+              </div>
+              
+              {/* Check if error matches unauthorized domain */}
+              {(errorCode?.includes('unauthorized-domain') || loginError.toLowerCase().includes('authdomain') || loginError.toLowerCase().includes('unauthorized domain')) ? (
+                <div className="space-y-2">
+                  <p className="font-semibold text-primary">El dominio de producción no está autorizado en tu configuración de Firebase.</p>
+                  <ol className="list-decimal pl-4 space-y-1.5 text-primary/70 leading-relaxed">
+                    <li>Ve a tu <a href={`https://console.firebase.google.com/project/${firebaseConfigData.projectId}/authentication/providers`} target="_blank" rel="noopener noreferrer" className="text-accent underline hover:text-accent/80 font-bold">Consola de Firebase</a>.</li>
+                    <li>Haz clic en la pestaña <strong>Settings (Configuración)</strong> en la parte superior de la sección de Authentication.</li>
+                    <li>Selecciona <strong>Authorized Domains (Dominios autorizados)</strong> en el menú lateral de configuración.</li>
+                    <li>Haz clic en <strong>Add Domain (Agregar dominio)</strong> y añade este dominio: <code className="bg-white px-1.5 py-0.5 rounded border text-accent font-mono text-[10px] font-bold">{window.location.hostname}</code></li>
+                  </ol>
+                </div>
+              ) : 
+              /* Check if error matches restricted key or blocked referer */
+              (errorCode?.includes('api-key-not-valid') || loginError.toLowerCase().includes('restricted') || loginError.toLowerCase().includes('block') || loginError.toLowerCase().includes('key') || loginError.toLowerCase().includes('not authorized') || loginError.toLowerCase().includes('referer')) ? (
+                <div className="space-y-2.5">
+                  <p className="font-semibold text-primary">Tu clave API de Firebase tiene restricciones que impiden su uso.</p>
+                  <div className="p-3 bg-white/50 rounded-xl border border-primary/5 text-[11px] text-primary/70 leading-relaxed">
+                    <strong>Directivas de Organización:</strong> En cuentas corporativas o institucionales, Google Cloud suele obligar a restringir las claves API, por lo que la opción de <em>"No restringir clave"</em> está oculta o bloqueada. ¡No te preocupes! Puedes dejar las restricciones activas, pero debes permitir estas APIs:
+                  </div>
+                  <ol className="list-decimal pl-4 space-y-2 text-primary/70 leading-relaxed">
+                    <li>Abre la <a href={`https://console.cloud.google.com/apis/credentials?project=${firebaseConfigData.projectId}`} target="_blank" rel="noopener noreferrer" className="text-accent underline hover:text-accent/80 font-bold">Consola de Google Cloud</a> en tu proyecto.</li>
+                    <li>Edita la clave API (generalmente llamada <strong>Browser key</strong> o que coincida con tu API Key actual).</li>
+                    <li>En la sección <strong>Restricciones de API</strong>, asegúrate de marcar <strong>Restringir clave</strong>.</li>
+                    <li>En la lista desplegable de APIs permitidas, busca y marca exactamente estas tres APIs:
+                      <ul className="list-disc pl-4 mt-1.5 space-y-1 font-bold text-primary/80">
+                        <li>Identity Toolkit API</li>
+                        <li>Token Service API</li>
+                        <li>Cloud Firestore API</li>
+                      </ul>
+                    </li>
+                    <li>Haz clic en <strong>Guardar</strong> y espera de 2 a 3 minutos para que se aplique la configuración en Google.</li>
+                  </ol>
+                </div>
+              ) : (
+                /* Generic guidance */
+                <div className="space-y-2">
+                  <p className="font-semibold text-primary">Verifica tu configuración de seguridad:</p>
+                  <ul className="list-disc pl-4 space-y-1.5 text-primary/70 leading-relaxed">
+                    <li>Asegúrate de que el proveedor de inicio de sesión esté habilitado en la consola de Firebase.</li>
+                    <li>Si usas inicio de sesión por Email, asegúrate de haber activado el proveedor de <strong>Correo electrónico/Contraseña</strong> en Authentication.</li>
+                    <li>Si tu clave API está restringida en Google Cloud, edítala y asegúrate de añadir las APIs <strong>Identity Toolkit API</strong>, <strong>Token Service API</strong> y <strong>Cloud Firestore API</strong> a la lista de permitidas.</li>
+                  </ul>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     );
   }

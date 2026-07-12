@@ -75,7 +75,8 @@ import {
   signOut,
   User,
   signInWithEmailAndPassword,
-  createUserWithEmailAndPassword
+  createUserWithEmailAndPassword,
+  sendPasswordResetEmail
 } from 'firebase/auth';
 
 const AUTHORIZED_EMAILS = ["mesfede@gmail.com", "contacto@unke.com.ar", "unkedcv@gmail.com"];
@@ -2590,6 +2591,32 @@ const AdminPanel = () => {
   const [loginError, setLoginError] = useState<string | null>(null);
   const [errorCode, setErrorCode] = useState<string | null>(null);
   const [isSignUp, setIsSignUp] = useState(false);
+  const [resetSent, setResetSent] = useState(false);
+  const [resetSending, setResetSending] = useState(false);
+
+  const handleResetPassword = async () => {
+    if (!loginEmail) {
+      setLoginError("Por favor, ingresa tu correo electrónico primero en el campo 'Email' para enviarte el enlace de restablecimiento.");
+      setErrorCode("auth/missing-email");
+      return;
+    }
+    setLoginError(null);
+    setErrorCode(null);
+    setResetSending(true);
+    setResetSent(false);
+    try {
+      await sendPasswordResetEmail(auth, loginEmail);
+      setResetSent(true);
+    } catch (error: any) {
+      console.error("Password reset failed:", error);
+      setLoginError(error instanceof Error ? error.message : "Error al enviar correo de restablecimiento");
+      if (error && typeof error === 'object' && 'code' in error) {
+        setErrorCode(error.code);
+      }
+    } finally {
+      setResetSending(false);
+    }
+  };
 
   const handleLogin = async () => {
     const provider = new GoogleAuthProvider();
@@ -2756,6 +2783,13 @@ const AdminPanel = () => {
             : "Debes iniciar sesión con tu cuenta autorizada para gestionar los proyectos."}
         </p>
         <div className="flex flex-col gap-4 w-full max-w-xs">
+          {resetSent && (
+            <div className="p-4 rounded-xl bg-green-50 border border-green-200 text-green-800 text-xs text-left leading-relaxed shadow-sm">
+              <span className="font-bold block mb-1">📬 Enlace Enviado</span>
+              Hemos enviado un correo a <strong className="font-bold font-mono">{loginEmail}</strong> con las instrucciones para restablecer tu contraseña. Revisa tu bandeja de entrada (y la carpeta de spam).
+            </div>
+          )}
+
           <form onSubmit={isSignUp ? handleEmailSignUp : handleEmailLogin} className="flex flex-col gap-3 mb-2">
             <Input 
               type="email" 
@@ -2765,15 +2799,27 @@ const AdminPanel = () => {
               className="h-12"
               required
             />
-            <Input 
-              type="password" 
-              placeholder="Contraseña" 
-              value={loginPassword} 
-              onChange={(e) => setLoginPassword(e.target.value)}
-              className="h-12"
-              required
-            />
-            <Button type="submit" className="bg-primary hover:bg-accent text-white font-bold h-12 rounded-xl">
+            <div className="flex flex-col gap-1">
+              <Input 
+                type="password" 
+                placeholder="Contraseña" 
+                value={loginPassword} 
+                onChange={(e) => setLoginPassword(e.target.value)}
+                className="h-12"
+                required={!resetSending}
+              />
+              {!isSignUp && (
+                <button
+                  type="button"
+                  onClick={handleResetPassword}
+                  disabled={resetSending}
+                  className="text-[11px] text-accent font-bold hover:underline self-end pt-1 transition-all"
+                >
+                  {resetSending ? "Enviando..." : "¿Olvidaste tu contraseña?"}
+                </button>
+              )}
+            </div>
+            <Button type="submit" className="bg-primary hover:bg-accent text-white font-bold h-12 rounded-xl mt-1">
               {isSignUp ? 'Crear Cuenta y Registrarse' : 'Iniciar Sesión'}
             </Button>
           </form>
@@ -2784,6 +2830,7 @@ const AdminPanel = () => {
               setIsSignUp(!isSignUp);
               setLoginError(null);
               setErrorCode(null);
+              setResetSent(false);
             }} 
             className="text-accent text-xs font-bold hover:underline text-center mb-4 transition-all duration-200"
           >
@@ -2879,6 +2926,22 @@ const AdminPanel = () => {
                   </div>
                   <div className="text-[10px] text-primary/50 pt-1">
                     * Nota: Asegúrate de tener habilitado el método de inicio de sesión <strong>Correo electrónico/Contraseña</strong> en la consola de Firebase.
+                  </div>
+                </div>
+              ) : errorCode?.includes('email-already-in-use') ? (
+                <div className="space-y-2">
+                  <p className="font-semibold text-primary">Este correo electrónico ya está registrado.</p>
+                  <p className="text-primary/70 leading-relaxed text-[11px]">
+                    ¡Excelente noticia! Esto confirma que tu conexión con Firebase funciona correctamente y tu cuenta ya existe en la base de datos. Solo necesitas la contraseña correcta.
+                  </p>
+                  <div className="p-4 bg-accent/5 rounded-xl border border-accent/15 space-y-2 text-xs">
+                    <p className="font-bold text-accent">🔑 ¿No recuerdas la contraseña anterior?</p>
+                    <ol className="list-decimal pl-4 space-y-1.5 text-primary/70 leading-relaxed">
+                      <li>Haz clic arriba en el botón <strong className="text-accent cursor-pointer hover:underline" onClick={() => { setIsSignUp(false); setLoginError(null); setErrorCode(null); }}>← Volver a Iniciar Sesión</strong>.</li>
+                      <li>Asegúrate de que tu email <strong className="font-mono text-[10px] bg-white px-1 py-0.5 rounded border">unkedcv@gmail.com</strong> esté escrito en el campo de Email.</li>
+                      <li>Haz clic en el enlace <strong className="text-accent underline font-semibold">¿Olvidaste tu contraseña?</strong> justo debajo del campo de contraseña.</li>
+                      <li>Te enviaremos un correo electrónico inmediato de Google Firebase con un enlace directo para que configures una contraseña nueva de tu elección.</li>
+                    </ol>
                   </div>
                 </div>
               ) : (

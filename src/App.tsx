@@ -74,7 +74,8 @@ import {
   onAuthStateChanged,
   signOut,
   User,
-  signInWithEmailAndPassword
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword
 } from 'firebase/auth';
 
 const AUTHORIZED_EMAILS = ["mesfede@gmail.com", "contacto@unke.com.ar", "unkedcv@gmail.com"];
@@ -2588,6 +2589,7 @@ const AdminPanel = () => {
   const [loginPassword, setLoginPassword] = useState('');
   const [loginError, setLoginError] = useState<string | null>(null);
   const [errorCode, setErrorCode] = useState<string | null>(null);
+  const [isSignUp, setIsSignUp] = useState(false);
 
   const handleLogin = async () => {
     const provider = new GoogleAuthProvider();
@@ -2613,6 +2615,21 @@ const AdminPanel = () => {
     } catch (error: any) {
       console.error("Email login failed:", error);
       setLoginError(error instanceof Error ? error.message : "Error desconocido");
+      if (error && typeof error === 'object' && 'code' in error) {
+        setErrorCode(error.code);
+      }
+    }
+  };
+
+  const handleEmailSignUp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoginError(null);
+    setErrorCode(null);
+    try {
+      await createUserWithEmailAndPassword(auth, loginEmail, loginPassword);
+    } catch (error: any) {
+      console.error("Email registration failed:", error);
+      setLoginError(error instanceof Error ? error.message : "Error al registrarse");
       if (error && typeof error === 'object' && 'code' in error) {
         setErrorCode(error.code);
       }
@@ -2733,9 +2750,13 @@ const AdminPanel = () => {
       <div className="pt-40 pb-24 flex flex-col items-center justify-center min-h-[60vh]">
         <Lock size={64} className="text-primary/20 mb-6" />
         <h2 className="text-3xl font-bold text-primary mb-2">Panel de Administración</h2>
-        <p className="text-primary/60 mb-8 px-6 text-center">Debes iniciar sesión con tu cuenta de Google autorizada para gestionar los proyectos.</p>
+        <p className="text-primary/60 mb-8 px-6 text-center">
+          {isSignUp 
+            ? "Crea tu cuenta de administración. Tu email debe estar autorizado para acceder." 
+            : "Debes iniciar sesión con tu cuenta autorizada para gestionar los proyectos."}
+        </p>
         <div className="flex flex-col gap-4 w-full max-w-xs">
-          <form onSubmit={handleEmailLogin} className="flex flex-col gap-3 mb-4">
+          <form onSubmit={isSignUp ? handleEmailSignUp : handleEmailLogin} className="flex flex-col gap-3 mb-2">
             <Input 
               type="email" 
               placeholder="Email" 
@@ -2753,9 +2774,21 @@ const AdminPanel = () => {
               required
             />
             <Button type="submit" className="bg-primary hover:bg-accent text-white font-bold h-12 rounded-xl">
-              Iniciar Sesión
+              {isSignUp ? 'Crear Cuenta y Registrarse' : 'Iniciar Sesión'}
             </Button>
           </form>
+
+          <button 
+            type="button" 
+            onClick={() => {
+              setIsSignUp(!isSignUp);
+              setLoginError(null);
+              setErrorCode(null);
+            }} 
+            className="text-accent text-xs font-bold hover:underline text-center mb-4 transition-all duration-200"
+          >
+            {isSignUp ? '← Volver a Iniciar Sesión' : '¿No tienes cuenta? Regístrate aquí'}
+          </button>
 
           <div className="relative mb-4">
             <div className="absolute inset-0 flex items-center">
@@ -2829,6 +2862,24 @@ const AdminPanel = () => {
                     </li>
                     <li>Haz clic en <strong>Guardar</strong> y espera de 2 a 3 minutos para que se aplique la configuración en Google.</li>
                   </ol>
+                </div>
+              ) : errorCode?.includes('invalid-credential') ? (
+                <div className="space-y-2">
+                  <p className="font-semibold text-primary">El usuario no existe o la contraseña es incorrecta.</p>
+                  <p className="text-primary/70 leading-relaxed text-[11px]">
+                    Firebase v10+ unificó los errores de "contraseña incorrecta" y "usuario no encontrado" bajo el código <code className="bg-red-100 px-1 py-0.5 rounded font-mono font-bold text-red-800 text-[10px]">auth/invalid-credential</code> por razones de seguridad.
+                  </p>
+                  <div className="p-3 bg-accent/5 rounded-xl border border-accent/15 space-y-1.5 text-xs">
+                    <p className="font-bold text-accent">🚀 ¿Cómo solucionarlo ahora mismo?</p>
+                    <ol className="list-decimal pl-4 space-y-1 text-primary/70">
+                      <li>Haz clic arriba en el botón <strong className="text-accent cursor-pointer hover:underline" onClick={() => setIsSignUp(true)}>¿No tienes cuenta? Regístrate aquí</strong>.</li>
+                      <li>Registra tu correo electrónico <strong className="font-mono text-[10px] bg-white px-1 py-0.5 rounded border">unkedcv@gmail.com</strong> (o el que corresponda de la lista de autorizados) con una contraseña nueva de tu elección.</li>
+                      <li>Una vez creada la cuenta, iniciarás sesión de forma inmediata y automática con acceso total al panel.</li>
+                    </ol>
+                  </div>
+                  <div className="text-[10px] text-primary/50 pt-1">
+                    * Nota: Asegúrate de tener habilitado el método de inicio de sesión <strong>Correo electrónico/Contraseña</strong> en la consola de Firebase.
+                  </div>
                 </div>
               ) : (
                 /* Generic guidance */

@@ -1,5 +1,5 @@
 ---
 deployment:
   tasks:
-     - export DEPLOYPATH=/home/akhydrac/public_html/nuevaweb/
+     - export DEPLOYPATH=/home/akhydrac/public_html/web2026/
      - /bin/cp -R dist/* $DEPLOYPATH

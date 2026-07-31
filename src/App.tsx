@@ -1836,7 +1836,7 @@ const Contact = () => {
                   <Phone size={24} />
                 </div>
                 <div>
-                  <div className="font-bold text-primary">Telefono/WhatsApp:</div>
+                  <div className="font-bold text-primary">Telefono/WhatsApp</div>
                   <div className="text-primary/60 font-bold">+54 9 221 576-2168</div>
                 </div>
               </div>
@@ -1849,7 +1849,7 @@ const Contact = () => {
                   <div className="text-primary/60 font-bold">Calle 17 N° 319, La Plata, Buenos Aires, Argentina, CP 1900</div>
                 </div>
               </div>
-              <div className="flex gap-4">
+              <div className="flex gap-4 items-center">
                 <div className="w-12 h-12 bg-accent/10 text-accent rounded-xl flex items-center justify-center shrink-0">
                   <Instagram size={24} />
                 </div>
@@ -1972,6 +1972,43 @@ const Contact = () => {
   );
 };
 
+const WhiteLogo = ({ className = "h-12 w-auto" }: { className?: string }) => (
+  <svg 
+    xmlns="http://www.w3.org/2000/svg" 
+    viewBox="63.84 0 188.49 52.09" 
+    className={className}
+  >
+    <g>
+      {/* AKHYDRA text */}
+      <g fill="white">
+        <path d="M89.4,30.05h-3.05l-2.95-6.64h-13.68l-2.98,6.64h-2.91l11.45-25.32h2.66l11.46,25.32ZM76.58,8.04l-5.75,12.82h11.46l-5.71-12.82Z" />
+        <path d="M115.75,30.05h-3.55l-9.66-12.17-5.35,5.42v6.75h-2.84V4.92h2.84v15.01l14.44-15.01h3.66l-10.77,10.99,11.24,14.15Z" />
+        <path d="M118.84,4.92h6.97v9.41h8.94V4.92h6.97v25.14h-6.97v-9.55h-8.94v9.55h-6.97V4.92Z" />
+        <path d="M153.41,20.65l-9.55-15.73h7.94l5.17,9.16,5.21-9.16h7.79l-9.55,15.62v9.52h-7v-9.41Z" />
+        <path d="M172.11,4.92h9.7c8.98,0,14.18,5.17,14.18,12.43v.07c0,7.25-5.28,12.64-14.33,12.64h-9.55V4.92ZM181.92,23.88c4.17,0,6.93-2.3,6.93-6.36v-.07c0-4.02-2.77-6.36-6.93-6.36h-2.84v12.78h2.84Z" />
+        <path d="M199.58,4.92h11.89c3.84,0,6.5,1.01,8.19,2.73,1.47,1.44,2.23,3.38,2.23,5.85v.07c0,3.84-2.05,6.39-5.17,7.72l6,8.76h-8.04l-5.06-7.61h-3.05v7.61h-6.97V4.92ZM211.14,16.98c2.37,0,3.73-1.15,3.73-2.98v-.07c0-1.97-1.44-2.98-3.77-2.98h-4.56v6.03h4.6Z" />
+        <path d="M233.65,4.74h6.72l10.7,25.32h-7.47l-1.83-4.49h-9.7l-1.8,4.49h-7.33l10.7-25.32ZM239.76,20.14l-2.8-7.15-2.84,7.15h5.64Z" />
+      </g>
+      {/* INGENIERIA text */}
+      <g fill="white">
+        <path d="M113.38,38.48h1.26v7.18h-1.26v-7.18Z" />
+        <path d="M119.65,38.48h1.17l3.85,4.97v-4.97h1.24v7.18h-1.06l-3.96-5.11v5.11h-1.24v-7.18Z" />
+        <path d="M130.53,42.09v-.02c0-2.01,1.54-3.71,3.7-3.71,1.25,0,2.02.35,2.76.97l-.8.95c-.55-.46-1.1-.76-2.01-.76-1.32,0-2.33,1.15-2.33,2.52v.02c0,1.48.97,2.56,2.44,2.56.68,0,1.29-.22,1.73-.54v-1.33h-1.84v-1.11h3.06v3.02c-.71.61-1.72,1.12-3,1.12-2.25,0-3.72-1.6-3.72-3.69Z" />
+        <path d="M141.99,38.48h5.32v1.13h-4.06v1.87h3.6v1.14h-3.6v1.92h4.11v1.13h-5.38v-7.18Z" />
+        <path d="M151.95,38.48h1.17l3.85,4.97v-4.97h1.24v7.18h-1.06l-3.96-5.11v5.11h-1.24v-7.18Z" />
+        <path d="M163.22,38.48h1.26v7.18h-1.26v-7.18Z" />
+        <path d="M169.5,38.48h5.32v1.13h-4.06v1.87h3.6v1.14h-3.6v1.92h4.11v1.13h-5.38v-7.18Z" />
+        <path d="M179.46,38.48h3.2c.9,0,1.61.27,2.07.72.38.39.59.92.59,1.55v.02c0,1.18-.71,1.89-1.7,2.17l1.94,2.72h-1.5l-1.76-2.5h-1.58v2.5h-1.26v-7.18ZM182.57,42.04c.9,0,1.48-.47,1.48-1.2v-.02c0-.77-.55-1.19-1.49-1.19h-1.84v2.41h1.85Z" />
+        <path d="M190.05,38.48h1.26v7.18h-1.26v-7.18Z" />
+        <path d="M198.87,38.42h1.17l3.16,7.23h-1.33l-.73-1.73h-3.4l-.74,1.73h-1.29l3.16-7.23ZM200.67,42.81l-1.24-2.87-1.23,2.87h2.47Z" />
+      </g>
+      {/* Horizontal lines */}
+      <line stroke="white" strokeMiterlimit="10" strokeWidth="0.8" x1="63.84" y1="42.04" x2="106.34" y2="42.04" />
+      <line stroke="white" strokeMiterlimit="10" strokeWidth="0.8" x1="209.83" y1="42.04" x2="252.33" y2="42.04" />
+    </g>
+  </svg>
+);
+
 const Footer = () => {
   return (
     <footer className="bg-primary text-white/70 py-16">
@@ -1979,11 +2016,9 @@ const Footer = () => {
         <div className="grid md:grid-cols-4 gap-12 mb-12">
           <div className="col-span-2">
             <div className="flex items-center mb-8">
-              <div className="bg-white px-4 py-2 rounded-xl shadow-lg border border-white/10 group transition-transform hover:scale-105 duration-300">
-                <div className="scale-75 origin-left">
-                  <AnimatedLogo showShadow={false} />
-                </div>
-              </div>
+              <Link to="/" className="inline-block transition-transform hover:scale-105 duration-300">
+                <WhiteLogo className="h-12 md:h-14 w-auto" />
+              </Link>
             </div>
             <p className="max-w-sm mb-8 text-white/80 font-medium">Líderes en ingeniería de fluidos e infraestructura resiliente. Comprometidos con la innovación técnica y el desarrollo sostenible.</p>
             <div className="flex gap-4">

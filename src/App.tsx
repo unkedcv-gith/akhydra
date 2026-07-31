@@ -1036,18 +1036,19 @@ const Navbar = () => {
 };
 
 const About = () => {
-  const [selectedMember, setSelectedMember] = useState<null | { name: string, role: string, image: string, cv: string }>(null);
+  const [selectedMember, setSelectedMember] = useState<null | { name: string, role: string, image: string, cv: string, extraRole?: string }>(null);
 
   const team = [
     {
       name: "Álvarez Diego Raul",
-      role: "Ing. Hidráulico / Socio Gerente",
+      role: "Ing. Hidráulico / Director",
+      extraRole: "PROMOTOR ODS",
       image: "https://akhydra.com.ar/wp-content/uploads/2021/05/diego.png",
       cv: "Profesional con amplia trayectoria en la gestión de recursos hídricos. Especialista en diseño de infraestructuras complejas y coordinación de equipos interdisciplinarios. Ha liderado más de 50 proyectos de saneamiento y plantas potabilizadoras en la región."
     },
     {
       name: "Korell Juan Pablo",
-      role: "Ing. Hidráulico / Socio Gerente",
+      role: "Ing. Hidráulico / Director",
       image: "https://akhydra.com.ar/wp-content/uploads/2021/05/juan.png",
       cv: "Ingeniero Hidráulico especializado en modelación numérica y diseño de drenajes urbanos. Co-fundador de AKHYDRA, con foco en la implementación de soluciones tecnológicas para el aprovechamiento eficiente de recursos naturales e infraestructura resiliente."
     }
@@ -1136,11 +1137,18 @@ const About = () => {
                   <div className="absolute inset-0 border-2 border-dashed border-accent/30 rounded-full scale-110 group-hover:rotate-45 transition-transform duration-1000" />
                 </div>
                 <div className="space-y-2">
-                  <div className="text-xs font-mono text-accent font-bold tracking-[0.2em] mb-1">SOCIO GERENTE</div>
+                  <div className="text-xs font-mono text-accent font-bold tracking-[0.2em] mb-1">DIRECTOR</div>
                   <h3 className="text-2xl md:text-3xl font-bold text-primary leading-tight uppercase tracking-tight">{member.name.split(' ').map((word, idx) => idx === 0 ? <React.Fragment key={idx}>{word} <br /></React.Fragment> : <React.Fragment key={idx}>{word} </React.Fragment>)}</h3>
-                  <div className="flex items-center gap-2 text-primary/50 font-bold italic text-sm md:text-base border-l-2 border-accent/20 pl-3">
-                    Ing. Hidráulico
-                    <ArrowRight size={14} className="text-accent opacity-0 group-hover:opacity-100 transition-opacity translate-x-[-10px] group-hover:translate-x-0 duration-300" />
+                  <div className="flex flex-col border-l-2 border-accent/20 pl-3">
+                    <div className="flex items-center gap-2 text-primary/50 font-bold italic text-sm md:text-base">
+                      Ing. Hidráulico
+                      <ArrowRight size={14} className="text-accent opacity-0 group-hover:opacity-100 transition-opacity translate-x-[-10px] group-hover:translate-x-0 duration-300" />
+                    </div>
+                    {member.extraRole && (
+                      <div className="text-accent font-bold text-xs uppercase tracking-wider mt-0.5">
+                        {member.extraRole}
+                      </div>
+                    )}
                   </div>
                 </div>
               </motion.div>
@@ -1186,6 +1194,9 @@ const About = () => {
                   </div>
                   <h4 className="text-xl font-bold text-primary mb-2 leading-tight">{selectedMember.name}</h4>
                   <Badge variant="outline" className="border-accent/30 text-accent font-bold uppercase text-[10px] tracking-widest">{selectedMember.role.split(' / ')[1]}</Badge>
+                  {selectedMember.extraRole && (
+                    <span className="text-[10px] font-mono font-bold text-accent uppercase tracking-wider mt-1">{selectedMember.extraRole}</span>
+                  )}
                 </div>
                 <div className="md:col-span-3 p-6 md:p-10 flex flex-col justify-center">
                   <div className="flex items-center gap-2 mb-6">
@@ -1302,7 +1313,7 @@ const Staff = () => {
                 <img 
                   src="https://akhydra.com.ar/wp-content/uploads/2025/06/magadalena_ciancio.png" 
                   alt="Ciancio Magdalena" 
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  className="w-full h-full object-cover filter grayscale transition-transform duration-700 group-hover:scale-110"
                   referrerPolicy="no-referrer"
                 />
                 <div className="absolute inset-0 bg-accent/10 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -3615,9 +3626,6 @@ const StaffPage = () => {
             <span>/</span>
             <span className="text-primary/40">Staff</span>
           </div>
-          <h1 className="text-4xl md:text-6xl font-display font-bold text-primary mb-4 uppercase tracking-tighter">
-            Capital <span className="text-accent italic">Humano</span>
-          </h1>
           <p className="text-lg text-primary/60 max-w-2xl font-medium">
             Conocé al equipo interdisciplinario de profesionales que integran AKHYDRA Ingeniería.
           </p>

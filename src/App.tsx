@@ -41,7 +41,8 @@ import {
   Facebook,
   Youtube,
   Projector,
-  AlertTriangle
+  AlertTriangle,
+  Leaf
 } from 'lucide-react';
 import firebaseConfigData from '../firebase-applet-config.json';
 import { Button } from '@/components/ui/button';
@@ -348,6 +349,38 @@ const Navbar = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const location = useLocation();
 
+  const menuAreaCategories = [
+    {
+      title: "INFRAESTRUCTURA & RECURSOS",
+      icon: Droplets,
+      items: [
+        { name: "Hidráulica", id: "hidraulica" },
+        { name: "Vial", id: "vial" },
+        { name: "Ferrocarril", id: "ferrocarril" },
+        { name: "Geología & Geotecnia", id: "geologia" },
+      ]
+    },
+    {
+      title: "INGENIERÍA & DISEÑO",
+      icon: Building2,
+      items: [
+        { name: "Arquitectura", id: "arquitectura" },
+        { name: "Ingeniería Civil", id: "civil" },
+        { name: "Ingeniería Industrial", id: "industrial" },
+        { name: "Mecánica", id: "mecanica" },
+      ]
+    },
+    {
+      title: "AMBIENTE",
+      icon: Leaf,
+      items: [
+        { name: "Agrimensura Ambiental", id: "agrimensura" },
+        { name: "Gestoría Ambiental", id: "gestoria" },
+        { name: "Higiene & Seguridad", id: "higiene-seguridad" },
+      ]
+    }
+  ];
+
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
@@ -396,18 +429,31 @@ const Navbar = () => {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 10 }}
-                    className="absolute top-full -left-1/2 mt-4 w-[450px] bg-white rounded-xl shadow-2xl border border-primary/5 p-6 grid grid-cols-2 gap-x-8 gap-y-2 cursor-default"
+                    className="absolute top-full -left-1/2 mt-4 w-[380px] bg-white rounded-2xl shadow-2xl border border-primary/10 p-6 cursor-default flex flex-col gap-5 z-50"
                   >
-                    {areasData.map((area) => (
-                      <Link 
-                        key={area.id} 
-                        to={`/area/${area.id}`} 
-                        className="text-primary/70 hover:text-accent hover:translate-x-1 transition-all py-1.5 text-xs font-semibold uppercase tracking-wider block border-b border-transparent hover:border-accent/10"
-                        onClick={() => setAreasOpen(false)}
-                      >
-                        {area.name}
-                      </Link>
-                    ))}
+                    {menuAreaCategories.map((cat, idx) => {
+                      const IconComp = cat.icon;
+                      return (
+                        <div key={idx} className="space-y-2">
+                          <div className="flex items-center gap-2 text-accent font-mono text-[11px] font-bold uppercase tracking-wider border-b border-primary/10 pb-1.5">
+                            <IconComp size={14} className="text-accent shrink-0" />
+                            <span>{cat.title}</span>
+                          </div>
+                          <div className="grid grid-cols-1 gap-1 pl-1">
+                            {cat.items.map((item) => (
+                              <Link
+                                key={item.id + item.name}
+                                to={`/area/${item.id}`}
+                                className="text-primary/70 hover:text-accent hover:translate-x-1.5 transition-all py-0.5 text-xs font-semibold block"
+                                onClick={() => setAreasOpen(false)}
+                              >
+                                {item.name}
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      );
+                    })}
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -471,11 +517,34 @@ const Navbar = () => {
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      className="grid grid-cols-1 gap-2 pl-4 border-l-2 border-accent/20 overflow-hidden"
+                      className="flex flex-col gap-4 pl-3 my-2 overflow-hidden"
                     >
-                      {areasData.map((area) => (
-                        <Link key={area.id} to={`/area/${area.id}`} className="text-lg font-normal text-primary/60 hover:text-accent" onClick={() => setMobileMenuOpen(false)}>{area.name}</Link>
-                      ))}
+                      {menuAreaCategories.map((cat, idx) => {
+                        const IconComp = cat.icon;
+                        return (
+                          <div key={idx} className="space-y-1.5">
+                            <div className="flex items-center gap-2 text-accent font-mono text-xs font-bold uppercase tracking-wider">
+                              <IconComp size={14} className="text-accent shrink-0" />
+                              <span>{cat.title}</span>
+                            </div>
+                            <div className="flex flex-col gap-1.5 pl-3 border-l-2 border-accent/20">
+                              {cat.items.map((item) => (
+                                <Link
+                                  key={item.id + item.name}
+                                  to={`/area/${item.id}`}
+                                  className="text-base font-normal text-primary/70 hover:text-accent"
+                                  onClick={() => {
+                                    setAreasOpen(false);
+                                    setMobileMenuOpen(false);
+                                  }}
+                                >
+                                  {item.name}
+                                </Link>
+                              ))}
+                            </div>
+                          </div>
+                        );
+                      })}
                     </motion.div>
                   )}
                 </AnimatePresence>

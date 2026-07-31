@@ -1828,7 +1828,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <div className="font-bold text-primary">Email</div>
-                  <div className="text-primary/60 font-bold">contacto@akhydra.com.ar</div>
+                  <div className="text-primary/60 font-bold">ingenieria@akhydra.com.ar</div>
                 </div>
               </div>
               <div className="flex gap-4">
@@ -1836,8 +1836,8 @@ const Contact = () => {
                   <Phone size={24} />
                 </div>
                 <div>
-                  <div className="font-bold text-primary">Teléfono</div>
-                  <div className="text-primary/60 font-bold">+54 (11) 1234-5678</div>
+                  <div className="font-bold text-primary">Telefono/WhatsApp:</div>
+                  <div className="text-primary/60 font-bold">+54 9 221 576-2168</div>
                 </div>
               </div>
               <div className="flex gap-4">
@@ -1846,7 +1846,29 @@ const Contact = () => {
                 </div>
                 <div>
                   <div className="font-bold text-primary">Ubicación</div>
-                  <div className="text-primary/60 font-bold">Buenos Aires, Argentina</div>
+                  <div className="text-primary/60 font-bold">Calle 17 N° 319, La Plata, Buenos Aires, Argentina, CP 1900</div>
+                </div>
+              </div>
+              <div className="flex gap-4">
+                <div className="w-12 h-12 bg-accent/10 text-accent rounded-xl flex items-center justify-center shrink-0">
+                  <Instagram size={24} />
+                </div>
+                <div>
+                  <div className="font-bold text-primary">Instagram</div>
+                  <div className="text-primary/60 font-bold text-sm space-y-1">
+                    <div>
+                      Arquitectura:{' '}
+                      <a href="https://www.instagram.com/espacioARKHY/" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">
+                        @espacioARKHY
+                      </a>
+                    </div>
+                    <div>
+                      Gestoría:{' '}
+                      <a href="https://www.instagram.com/akhydra_gestoria/" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">
+                        @akhydra_gestoria
+                      </a>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1913,6 +1935,8 @@ const Contact = () => {
                   <option>Ingeniería Hidráulica</option>
                   <option>Infraestructura Vial</option>
                   <option>Consultoría Técnica</option>
+                  <option>Arquitectura</option>
+                  <option>Sanitaria</option>
                   <option>Otro</option>
                 </select>
               </div>
@@ -1984,6 +2008,7 @@ const Footer = () => {
               <li><Link to="/area/eng-renovables" className="hover:text-accent transition-colors">Sistemas de Riego</Link></li>
               <li><Link to="/area/vial" className="hover:text-accent transition-colors">Infraestructura Vial</Link></li>
               <li><Link to="/area/sanitaria" className="hover:text-accent transition-colors">Gestión de Aguas</Link></li>
+              <li><Link to="/area/ambiental" className="hover:text-accent transition-colors">Estudio de Impacto Ambiental (EIA)</Link></li>
             </ul>
           </div>
           <div>

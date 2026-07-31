@@ -536,7 +536,7 @@ const Navbar = () => {
 
   const slides = [
     {
-      title: <>Ingeniería <br /> que <span className="text-accent italic">Fluye</span>.</>,
+      title: <>Ingeniería <br /> que <span className="text-accent italic inline-block pb-2 pr-2">Fluye</span>.</>,
       subtitle: "Soluciones hídricas e infraestructura con visión de futuro.",
       description: "Desde 2020, transformando desafíos complejos en realidades resilientes mediante un enfoque interdisciplinario.",
       icon: <Droplets className="w-full h-full text-white" strokeWidth={1} />,
@@ -562,7 +562,7 @@ const Navbar = () => {
       )
     },
     {
-      title: <>Innovación <br /> <span className="text-accent italic">Sustentable</span>.</>,
+      title: <>Innovación <br /> <span className="text-accent italic inline-block pb-2 pr-2">Sustentable</span>.</>,
       subtitle: "Comprometidos con proyectos que respetan el medio ambiente.",
       description: "Desarrollamos ingeniería de vanguardia minimizando el impacto ambiental y optimizando recursos naturales.",
       icon: <Sun className="w-full h-full text-white" strokeWidth={1} />,
@@ -587,7 +587,7 @@ const Navbar = () => {
       )
     },
     {
-      title: <>Precisión <br /> <span className="text-accent italic">Técnica</span>.</>,
+      title: <>Precisión <br /> <span className="text-accent italic inline-block pb-2 pr-2">Técnica</span>.</>,
       subtitle: "Rigurosidad y excelencia en cada detalle de nuestros diseños.",
       description: "Nuestro equipo combina experiencia y tecnología para garantizar la máxima eficiencia en cada obra.",
       icon: <Cog className="w-full h-full text-white" strokeWidth={1} />,
@@ -710,10 +710,10 @@ const Navbar = () => {
                     </motion.svg>
 
                     <motion.h1 
-                      initial={{ clipPath: 'inset(0 100% 0 0)' }}
-                      animate={{ clipPath: 'inset(0 0 0 0)' }}
+                      initial={{ clipPath: 'inset(-0.3em 100% -0.4em -0.2em)' }}
+                      animate={{ clipPath: 'inset(-0.3em -0.2em -0.4em -0.2em)' }}
                       transition={{ duration: 1.8, ease: "easeInOut", delay: 0.2 }}
-                      className="text-6xl md:text-8xl font-display font-bold leading-[0.85] text-primary tracking-tighter"
+                      className="text-6xl md:text-8xl font-display font-bold leading-[0.95] text-primary tracking-tighter pb-2 overflow-visible"
                     >
                       {slides[currentSlide].title}
                     </motion.h1>
@@ -1066,7 +1066,7 @@ const About = () => {
           >
             <Badge className="mb-4 bg-accent/10 text-accent border-none font-bold uppercase tracking-widest px-4 py-1">Área Directiva</Badge>
             <h2 className="text-4xl md:text-5xl mb-8 text-primary font-display font-bold tracking-tight leading-tight">
-              Liderazgo con <span className="text-accent italic">Compromiso Técnico</span>
+              Liderazgo con <span className="text-accent italic">compromiso técnico</span>
             </h2>
             <div className="space-y-6 text-lg text-primary/70 leading-relaxed">
               <p>
@@ -1603,7 +1603,7 @@ const Services = () => {
     <section id="areas" className="py-24 bg-white relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-4xl md:text-5xl mb-6 text-primary">Soluciones de Ingeniería <span className="text-accent">Integrales</span></h2>
+          <h2 className="text-4xl md:text-5xl mb-6 text-primary">Soluciones de ingeniería <span className="text-accent">integrales</span></h2>
           <p className="text-primary/80 text-lg">Combinamos experiencia técnica con tecnología de vanguardia para ofrecer resultados excepcionales en cada disciplina.</p>
         </div>
 
@@ -1695,7 +1695,7 @@ const Projects = () => {
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
           <div className="max-w-xl">
-            <h2 className="text-4xl md:text-5xl mb-6 text-primary">Proyectos que <span className="text-accent">Definen</span> el Futuro</h2>
+            <h2 className="text-4xl md:text-5xl mb-6 text-primary">Proyectos que <span className="text-accent">definen</span> el futuro</h2>
             <p className="text-primary/70 font-medium">Una muestra de nuestro compromiso con la excelencia técnica y la sostenibilidad en cada obra.</p>
           </div>
           <div className="flex gap-4">
@@ -1818,7 +1818,7 @@ const Contact = () => {
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid md:grid-cols-2 gap-16 items-start">
           <div>
-            <h2 className="text-4xl md:text-5xl mb-8 text-primary">¿Tienes un <span className="text-accent">Desafío</span> Técnico?</h2>
+            <h2 className="text-4xl md:text-5xl mb-8 text-primary">¿Tenés un <span className="text-accent">desafío</span> técnico?</h2>
             <p className="text-primary/80 text-lg mb-12">Estamos listos para aportar nuestra experiencia a tu próximo proyecto. Contáctanos para una consulta técnica inicial.</p>
             
             <div className="space-y-8">
@@ -3459,7 +3459,7 @@ const CompromisoSocial = () => {
             </div>
             
             <h2 className="text-4xl md:text-6xl mb-4 text-primary font-display font-bold uppercase tracking-tighter">
-              Compromiso <span className="text-accent">Social</span>
+              Compromiso <span className="text-accent">social</span>
             </h2>
             
             <h3 className="text-xl md:text-2xl text-primary/80 font-medium mb-8 uppercase tracking-wide">

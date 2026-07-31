@@ -1980,14 +1980,14 @@ const Footer = () => {
           <div>
             <h4 className="text-white font-bold mb-6">Servicios</h4>
             <ul className="space-y-4 text-sm font-medium">
-              <li><Link to="/area/hidraulica" className="hover:text-accent transition-colors">Hidráulica Urbana</Link></li>
+              <li><Link to="/area/vial" className="hover:text-accent transition-colors">Hidráulica urbana y rural</Link></li>
               <li><Link to="/area/eng-renovables" className="hover:text-accent transition-colors">Sistemas de Riego</Link></li>
               <li><Link to="/area/vial" className="hover:text-accent transition-colors">Infraestructura Vial</Link></li>
               <li><Link to="/area/sanitaria" className="hover:text-accent transition-colors">Gestión de Aguas</Link></li>
             </ul>
           </div>
           <div>
-            <h4 className="text-white font-bold mb-6">Compañía</h4>
+            <h4 className="text-white font-bold mb-6"><Link to="/area/hidraulica" className="hover:text-accent transition-colors">Consultora</Link></h4>
             <ul className="space-y-4 text-sm font-medium">
               <li><Link to="/#nosotros" className="hover:text-accent transition-colors">Sobre Nosotros</Link></li>
               <li><Link to="/#proyectos" className="hover:text-accent transition-colors">Proyectos</Link></li>

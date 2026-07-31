@@ -42,7 +42,8 @@ import {
   Youtube,
   Projector,
   AlertTriangle,
-  Leaf
+  Leaf,
+  User as UserIcon
 } from 'lucide-react';
 import firebaseConfigData from '../firebase-applet-config.json';
 import { Button } from '@/components/ui/button';
@@ -377,6 +378,13 @@ const Navbar = () => {
         { name: "Agrimensura Ambiental", id: "agrimensura" },
         { name: "Gestoría Ambiental", id: "gestoria" },
         { name: "Higiene & Seguridad", id: "higiene-seguridad" },
+      ]
+    },
+    {
+      title: "GESTORÍA",
+      icon: UserIcon,
+      items: [
+        { name: "Gestoría", id: "gestoria" },
       ]
     }
   ];

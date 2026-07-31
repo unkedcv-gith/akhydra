@@ -702,7 +702,6 @@ const Navbar = () => {
     return () => clearInterval(timer);
   }, []);
 
-  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
   const bgOpacity = useTransform(scrollYProgress, [0, 0.5], [0.15, 0.05]);
   const bgBlur = useTransform(scrollYProgress, [0, 1], ["blur(0px)", "blur(10px)"]);
   const rotateLarge = useTransform(scrollYProgress, [0, 1], [0, 45]);
@@ -714,7 +713,6 @@ const Navbar = () => {
         <motion.div 
           style={{ 
             backgroundImage: 'url("https://img.freepik.com/foto-gratis/imagen-objetos-ingenieria-punto-vista-top-construction-trabajo-herramientas-ingenieria-vintage-efecto-filtro-retro-tono-enfoque-suave-enfoque-selectivo_1418-704.jpg")',
-            scale: bgScale, 
             opacity: bgOpacity,
             filter: bgBlur
           }}

@@ -1250,11 +1250,9 @@ const Staff = () => {
         { name: "Camacho Richard", role: "Jefe de Proyectos", location: "Cochabamba, Bolivia", image: "https://akhydra.com.ar/wp-content/uploads/2021/06/Richard_CAMACHO.png" },
         { name: "Carbonetti J. Carlos", role: "Gerente Comercial", location: "Saladillo, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2021/06/Juan_C_CARBONETTI.png" },
         { name: "Ciancio Magdalena", role: "Bióloga", location: "La Plata, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2025/06/magadalena_ciancio.png" },
-        { name: "Decicilia Lucas", role: "Ing. Mecánico", location: "La Plata, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2021/06/Lucas_DECICILIA.png" },
         { name: "Defelipe Guillermo", role: "Ing. Vías de Comunicación", location: "La Plata, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2021/06/Guillermo_DEFELIPE.png" },
         { name: "Dionisio Delfina", role: "Arquitectura", location: "La Plata, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2021/06/Delfina_DIONISIO.png" },
         { name: "Edwin Florencia Paula", role: "Recursos Naturales y Medio Ambiente", location: "Mendoza, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2024/09/f_edwin.png" },
-        { name: "Escobar Loreine", role: "Ing. Ambiental y Sanitaria", location: "Santa Marta, Colombia", image: "https://akhydra.com.ar/wp-content/uploads/2021/06/Loreine_ESCOBAR.png" },
         { name: "Fernández Suyai", role: "Ing. Civil", location: "Neuquén, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2021/06/Suyai_FERNANDEZ.png" },
         { name: "Gardella Martina", role: "Arquitecta", location: "La Plata, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2021/06/Martina_GARDELLA.png" },
         { name: "Giustozzi Santiago", role: "Arquitectura / Gestión Ambiental", location: "Exaltación de la Cruz, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2023/10/Santiago_Giustozzi.png" },
@@ -1271,14 +1269,12 @@ const Staff = () => {
         { name: "Pérez Miguel", role: "Ingeniero Civil", location: "Córdoba, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2021/06/miguel-perez.png" },
         { name: "Posse Fernando", role: "Proyecto y Construcción", location: "La Plata, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2021/06/Fernando_POSSE.png" },
         { name: "Pugliese Irina", role: "Lic. en Geología", location: "Nayarit, México", image: "https://akhydra.com.ar/wp-content/uploads/2021/06/Irina_PUGLIESE.png" },
-        { name: "Stoeff Belkenoff, Ian", role: "Ing. Electromecánico", location: "La Plata, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2022/05/ian.png" },
         { name: "Szychowski Selva", role: "Arquitecta", location: "San José, Costa Rica", image: "https://akhydra.com.ar/wp-content/uploads/2021/06/Selva_SZYCHOWSKI.png" },
         { name: "Terpolilli Diego", role: "Agrimensor", location: "La Plata, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2021/06/Diego_TERPOLILLI.png" },
         { name: "Terré María Florencia", role: "Ingeniero Civil", location: "Córdoba, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2024/10/terre.png" },
         { name: "Tiseira Lucas", role: "Ingeniero Civil", location: "La Plata, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2022/06/lucas_tiseira.png" },
         { name: "Tkaczyk Carolina", role: "Ingeniera Ambiental", location: "Córdoba, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2022/01/tkaczyk_carolina.png" },
-        { name: "Tornari Maximiliano", role: "Ing. Construcciones/Civil", location: "La Plata, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2021/06/Maximiliani_TORNARI.png" },
-        { name: "Villani J. Ignacio", role: "Ing. Industrial", location: "La Plata, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2021/06/Ignacio_VILLANI.png" }
+        { name: "Tornari Maximiliano", role: "Ing. Construcciones/Civil", location: "La Plata, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2021/06/Maximiliani_TORNARI.png" }
       ]
     }
   ];
@@ -3529,15 +3525,15 @@ const CompromisoSocial = () => {
               Nuestros Valores
             </div>
             
-            <h2 className="text-4xl md:text-6xl mb-4 text-primary font-display font-bold uppercase tracking-tighter">
+            <h2 className="text-4xl md:text-6xl mb-4 text-primary font-display font-bold tracking-tighter">
               Compromiso <span className="text-accent">social</span>
             </h2>
             
-            <h3 className="text-xl md:text-2xl text-primary/80 font-medium mb-8 uppercase tracking-wide">
+            <h3 className="text-base md:text-lg text-primary/80 font-medium mb-6 uppercase tracking-wide">
               Asistencia a eventos de interés técnico-científico y participaciones en proyectos de extensión educativa
             </h3>
             
-            <div className="space-y-6 text-primary/70 text-lg font-medium">
+            <div className="space-y-4 text-primary/70 text-sm md:text-base font-normal leading-relaxed">
               <p>
                 Con diferentes trayectorias profesionales y variadas experiencias personales, el equipo de AKHYDRA INGENIERÍA constituye un acervo multidisciplinar de saberes que se ponen a disposición de nuestros clientes, con el fin de concretar de manera eficaz y eficiente sus proyectos de vida.
               </p>

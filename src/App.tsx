@@ -833,92 +833,6 @@ const Navbar = () => {
 
                 </motion.div>
               </AnimatePresence>
-
-              {/* Latest Project Card - Mobile & Tablet Only */}
-              {latestProject && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4 }}
-                  className="block lg:hidden mt-8 max-w-[320px] relative z-20 group/snapContainer"
-                >
-                  <div className="absolute inset-0 -z-10 pointer-events-none">
-                    <motion.div 
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                      className="absolute -inset-2 border border-dashed border-accent/20 rounded-[40px] opacity-0 group-hover/snapContainer:opacity-100 transition-opacity duration-700"
-                    />
-                  </div>
-
-                  <Link 
-                    to={`/proyecto/${latestProject.id}`}
-                    className="group/snap flex items-center gap-4 bg-white/95 border border-gray-100 rounded-full p-2 pr-6 hover:border-accent/40 shadow-[0_15px_40px_rgba(0,0,0,0.06)] transition-all duration-500 overflow-hidden relative"
-                  >
-                    <motion.div
-                      animate={{ x: ['-100%', '200%'] }}
-                      transition={{ duration: 3, repeat: Infinity, ease: "linear", repeatDelay: 2 }}
-                      className="absolute inset-0 bg-gradient-to-r from-transparent via-accent/5 to-transparent skew-x-12 pointer-events-none"
-                    />
-                    <div className="relative h-[55px] w-[55px] rounded-full overflow-hidden border border-gray-100 shrink-0 shadow-sm bg-gray-50 flex items-center justify-center group/snapImg">
-                      {latestProject.mainImage ? (
-                        <>
-                          <img 
-                            src={latestProject.mainImage} 
-                            alt={latestProject.title}
-                            className="h-full w-full object-cover transition-transform duration-700 group-hover/snap:scale-110"
-                            referrerPolicy="no-referrer"
-                            onError={(e) => {
-                              (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&q=80&w=200';
-                            }}
-                          />
-                          <div className="absolute inset-0 bg-primary/30 opacity-0 group-hover/snap:opacity-100 transition-opacity duration-500 flex items-center justify-center pointer-events-none">
-                            <img 
-                              src="https://akhydra.com.ar/wp-content/uploads/2025/11/logo-akhydra-vect.svg" 
-                              alt="Akhydra Logo" 
-                              className="w-[70%] h-auto opacity-20"
-                            />
-                          </div>
-                        </>
-                      ) : (
-                        <div className="text-accent/20">
-                          <Projector size={24} />
-                        </div>
-                      )}
-                    </div>
-                    
-                    <div className="flex flex-col relative z-10 w-[200px] overflow-hidden">
-                      <div className="flex items-center gap-2 mb-0.5">
-                        <span className="relative flex h-1.5 w-1.5 shrink-0">
-                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
-                          <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-accent"></span>
-                        </span>
-                        <motion.span 
-                          animate={{ opacity: [0.7, 1, 0.7] }}
-                          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                          className="text-[10px] font-mono font-black text-accent uppercase tracking-widest whitespace-nowrap"
-                        >
-                          Proyecto Destacado
-                        </motion.span>
-                      </div>
-                      
-                      <div className="overflow-hidden relative w-full mask-gradient-right">
-                        <motion.div
-                          animate={{ x: ["0%", "-50%"] }}
-                          transition={{ duration: 12, ease: "linear", repeat: Infinity }}
-                          className="flex w-max"
-                        >
-                          <span className="text-sm font-bold text-gray-900 tracking-tight leading-tight group-hover/snap:text-accent transition-colors pr-8">
-                            {latestProject.title}
-                          </span>
-                          <span className="text-sm font-bold text-gray-900 tracking-tight leading-tight group-hover/snap:text-accent transition-colors pr-8">
-                            {latestProject.title}
-                          </span>
-                        </motion.div>
-                      </div>
-                    </div>
-                  </Link>
-                </motion.div>
-              )}
             </div>
 
             {/* Branded Illustrative Element Side */}
@@ -931,7 +845,7 @@ const Navbar = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
                     transition={{ duration: 1, ease: "easeOut" }}
-                    className="relative w-56 h-56 flex items-center justify-center mb-24"
+                    className="relative w-56 h-56 flex items-center justify-center"
                   >
                     {/* The Branded Orb content */}
                     {/* Rotating Technical Markers (Moved to background) */}
@@ -976,106 +890,6 @@ const Navbar = () => {
                     </motion.div>
                   </motion.div>
                 </AnimatePresence>
-
-                {/* Latest Project Card - Fixed below, aligned with buttons, 15% larger */}
-                {latestProject && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4 }}
-                    className="relative z-20 group/snapContainer"
-                  >
-                    {/* Subtle animated background elements */}
-                    <div className="absolute inset-0 -z-10 pointer-events-none">
-                      <motion.div 
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                        className="absolute -inset-4 border border-dashed border-accent/20 rounded-[40px] opacity-0 group-hover/snapContainer:opacity-100 transition-opacity duration-700"
-                      />
-                      <motion.div 
-                        animate={{ rotate: -360 }}
-                        transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-                        className="absolute -inset-2 border border-dotted border-accent/30 rounded-[35px] opacity-0 group-hover/snapContainer:opacity-100 transition-opacity duration-700"
-                      />
-                    </div>
-
-                    <Link 
-                      to={`/proyecto/${latestProject.id}`}
-                      className="group/snap flex items-center gap-7 bg-white/95 border border-gray-100 rounded-full p-3 pr-11 hover:border-accent/40 shadow-[0_20px_50px_rgba(0,0,0,0.08)] transition-all duration-500 overflow-hidden relative"
-                    >
-                      {/* Internal subtle glow shift */}
-                      <motion.div
-                        animate={{ 
-                          x: ['-100%', '200%'],
-                        }}
-                        transition={{ 
-                          duration: 3, 
-                          repeat: Infinity, 
-                          ease: "linear",
-                          repeatDelay: 2
-                        }}
-                        className="absolute inset-0 bg-gradient-to-r from-transparent via-accent/5 to-transparent skew-x-12 pointer-events-none"
-                      />
-                      <div className="relative h-[70px] w-[70px] rounded-full overflow-hidden border border-gray-100 shrink-0 shadow-sm bg-gray-50 flex items-center justify-center group/snapImg">
-                        {latestProject.mainImage ? (
-                          <>
-                            <img 
-                              src={latestProject.mainImage} 
-                              alt={latestProject.title}
-                              className="h-full w-full object-cover transition-transform duration-700 group-hover/snap:scale-110"
-                              referrerPolicy="no-referrer"
-                              onError={(e) => {
-                                (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&q=80&w=200';
-                              }}
-                            />
-                            <div className="absolute inset-0 bg-primary/30 opacity-0 group-hover/snap:opacity-100 transition-opacity duration-500 flex items-center justify-center pointer-events-none">
-                              <img 
-                                src="https://akhydra.com.ar/wp-content/uploads/2025/11/logo-akhydra-vect.svg" 
-                                alt="Akhydra Logo" 
-                                className="w-[70%] h-auto opacity-20"
-                              />
-                            </div>
-                          </>
-                        ) : (
-                          <div className="text-accent/20">
-                            <Projector size={32} />
-                          </div>
-                        )}
-                      </div>
-                      
-                      <div className="flex flex-col relative z-10 w-[200px] overflow-hidden">
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="relative flex h-2 w-2 shrink-0">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
-                          </span>
-                          <motion.span 
-                            animate={{ opacity: [0.7, 1, 0.7], x: [0, 2, 0] }}
-                            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                            className="text-[12px] font-mono font-black text-accent uppercase tracking-widest whitespace-nowrap"
-                          >
-                            Proyecto Destacado
-                          </motion.span>
-                        </div>
-                        
-                        <div className="overflow-hidden relative w-full mask-gradient-right">
-                          <motion.div
-                            animate={{ x: ["0%", "-50%"] }}
-                            transition={{ duration: 15, ease: "linear", repeat: Infinity }}
-                            className="flex w-max"
-                          >
-                            <span className="text-base md:text-lg font-bold text-gray-900 tracking-tight leading-tight group-hover/snap:text-accent transition-colors pr-8">
-                              {latestProject.title}
-                            </span>
-                            <span className="text-base md:text-lg font-bold text-gray-900 tracking-tight leading-tight group-hover/snap:text-accent transition-colors pr-8">
-                              {latestProject.title}
-                            </span>
-                          </motion.div>
-                        </div>
-                      </div>
-                    </Link>
-                  </motion.div>
-                )}
               </div>
             </div>
           </div>

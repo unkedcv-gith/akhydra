@@ -48,6 +48,8 @@ import {
 import firebaseConfigData from '../firebase-applet-config.json';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import diegoImg from './assets/images/diego.png';
+import juanImg from './assets/images/juan.png';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -932,13 +934,13 @@ const About = () => {
       name: "Álvarez Diego Raul",
       role: "Ing. Hidráulico / Director",
       extraRole: "PROMOTOR ODS",
-      image: "https://akhydra.com.ar/wp-content/uploads/2021/05/diego.png",
+      image: diegoImg,
       cv: "Profesional con amplia trayectoria en la gestión de recursos hídricos. Especialista en diseño de infraestructuras complejas y coordinación de equipos interdisciplinarios. Ha liderado más de 50 proyectos de saneamiento y plantas potabilizadoras en la región."
     },
     {
       name: "Korell Juan Pablo",
       role: "Ing. Hidráulico / Director",
-      image: "https://akhydra.com.ar/wp-content/uploads/2021/05/juan.png",
+      image: juanImg,
       cv: "Ingeniero Hidráulico especializado en modelación numérica y diseño de drenajes urbanos. Co-fundador de AKHYDRA, con foco en la implementación de soluciones tecnológicas para el aprovechamiento eficiente de recursos naturales e infraestructura resiliente."
     }
   ];
@@ -1019,7 +1021,7 @@ const About = () => {
                     <img 
                       src={member.image} 
                       alt={member.name} 
-                      className="w-full h-full object-contain filter grayscale group-hover:grayscale-0 transition-all duration-500"
+                      className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500"
                       referrerPolicy="no-referrer"
                     />
                   </div>
@@ -1077,7 +1079,7 @@ const About = () => {
                     <img 
                       src={selectedMember.image} 
                       alt={selectedMember.name} 
-                      className="w-full h-full object-contain"
+                      className="w-full h-full object-cover"
                       referrerPolicy="no-referrer"
                     />
                   </div>

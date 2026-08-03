@@ -65,12 +65,63 @@ import {
   deleteDoc, 
   doc, 
   updateDoc, 
+  deleteField,
   serverTimestamp,
   getDoc,
   onSnapshot,
   Timestamp,
   writeBatch
 } from 'firebase/firestore';
+
+const isPlainObject = (val: any) => {
+  return val !== null && typeof val === 'object' && (val.constructor === Object || Object.getPrototypeOf(val) === null);
+};
+
+const sanitizeFirestoreData = (data: any): any => {
+  if (data === undefined) return undefined;
+  if (data === null) return null;
+  if (Array.isArray(data)) {
+    return data.map(item => sanitizeFirestoreData(item)).filter(item => item !== undefined);
+  }
+  if (isPlainObject(data)) {
+    const cleanObj: Record<string, any> = {};
+    for (const [key, value] of Object.entries(data)) {
+      if (key === 'id') continue;
+      if (value !== undefined) {
+        const cleaned = sanitizeFirestoreData(value);
+        if (cleaned !== undefined) {
+          cleanObj[key] = cleaned;
+        }
+      }
+    }
+    return cleanObj;
+  }
+  return data;
+};
+
+const getProjectTimestamp = (p: any): number => {
+  const ts = p.createdAt || p.updatedAt;
+  if (!ts) return Date.now();
+  if (typeof ts === 'number') return ts;
+  if (typeof ts === 'string') {
+    const parsed = Date.parse(ts);
+    return isNaN(parsed) ? Date.now() : parsed;
+  }
+  if (ts instanceof Date) return ts.getTime();
+  if (typeof ts.toMillis === 'function') return ts.toMillis();
+  if (typeof ts.seconds === 'number') return ts.seconds * 1000 + Math.floor((ts.nanoseconds || 0) / 1000000);
+  return Date.now();
+};
+
+const sortProjects = (a: any, b: any) => {
+  const orderA = a.order ?? 999;
+  const orderB = b.order ?? 999;
+  if (orderA !== orderB) return orderA - orderB;
+
+  const timeA = getProjectTimestamp(a);
+  const timeB = getProjectTimestamp(b);
+  return timeB - timeA;
+};
 import { Project } from './types/Project';
 import { 
   onAuthStateChanged,
@@ -596,12 +647,7 @@ const Navbar = () => {
         const snap = await getDocs(q);
         if (!snap.empty) {
           const projectsData = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }) as Project);
-          projectsData.sort((a, b) => {
-            const orderA = a.order ?? 999;
-            const orderB = b.order ?? 999;
-            if (orderA !== orderB) return orderA - orderB;
-            return (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0);
-          });
+          projectsData.sort(sortProjects);
           setLatestProject(projectsData[0]);
         } else {
           setLatestProject(null);
@@ -1560,25 +1606,16 @@ const Projects = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const q = query(collection(db, 'projects'), limit(3));
+        const q = query(collection(db, 'projects'));
         const querySnapshot = await getDocs(q);
         const projectsData = querySnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
         })) as Project[];
         
-        // Sort in memory to include docs without createdAt
-        projectsData.sort((a, b) => {
-          const orderA = a.order ?? 999;
-          const orderB = b.order ?? 999;
-          if (orderA !== orderB) return orderA - orderB;
-
-          const timeA = a.createdAt?.seconds || 0;
-          const timeB = b.createdAt?.seconds || 0;
-          return timeB - timeA;
-        });
+        projectsData.sort(sortProjects);
         
-        setProjects(projectsData);
+        setProjects(projectsData.slice(0, 3));
       } catch (error) {
         console.error("Error fetching projects:", error);
       } finally {
@@ -2005,17 +2042,7 @@ const PortfolioPage = () => {
           ...doc.data()
         })) as Project[];
         
-        // Sort in memory to include docs without createdAt
-        projectsData.sort((a, b) => {
-          const orderA = a.order ?? 999;
-          const orderB = b.order ?? 999;
-          if (orderA !== orderB) return orderA - orderB;
-
-          const timeA = a.createdAt?.seconds || 0;
-          const timeB = b.createdAt?.seconds || 0;
-          return timeB - timeA;
-        });
-        
+        projectsData.sort(sortProjects);
         setProjects(projectsData);
       } catch (error) {
         console.error("Error fetching projects:", error);
@@ -2524,15 +2551,7 @@ const AdminPanel = () => {
       const projectsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }) as Project);
       
       // Ordenar en memoria por orden y luego fecha (descendente)
-      projectsData.sort((a, b) => {
-        const orderA = a.order ?? 999;
-        const orderB = b.order ?? 999;
-        if (orderA !== orderB) return orderA - orderB;
-
-        const timeA = a.createdAt?.seconds || 0;
-        const timeB = b.createdAt?.seconds || 0;
-        return timeB - timeA;
-      });
+      projectsData.sort(sortProjects);
       
       setProjects(projectsData);
     } catch (error) {
@@ -2565,12 +2584,13 @@ const AdminPanel = () => {
     if (saving) return;
     setSaving(true);
     try {
+      const cleanedData = sanitizeFirestoreData(formData);
       if (editingId) {
         const docRef = doc(db, 'projects', editingId);
-        await updateDoc(docRef, { ...formData, updatedAt: serverTimestamp() });
+        await updateDoc(docRef, { ...cleanedData, updatedAt: serverTimestamp() });
         setEditingId(null);
       } else {
-        await addDoc(collection(db, 'projects'), { ...formData, createdAt: serverTimestamp(), updatedAt: serverTimestamp() });
+        await addDoc(collection(db, 'projects'), { ...cleanedData, createdAt: serverTimestamp(), updatedAt: serverTimestamp() });
       }
       setFormData({
         title: '', location: '', mainArea: '', order: undefined, description: '', mainImage: '', gallery: [],
@@ -2606,17 +2626,16 @@ const AdminPanel = () => {
   };
 
   const handleOrderChange = async (projectId: string, val: string) => {
-    const newOrder = val === '' ? undefined : Number(val);
+    const num = Number(val);
+    const newOrder = (val === '' || isNaN(num)) ? undefined : num;
     try {
-      await updateDoc(doc(db, 'projects', projectId), { order: newOrder, updatedAt: serverTimestamp() });
+      const payload = newOrder === undefined
+        ? { order: deleteField(), updatedAt: serverTimestamp() }
+        : { order: newOrder, updatedAt: serverTimestamp() };
+      await updateDoc(doc(db, 'projects', projectId), payload);
       setProjects(prev => {
         const next = prev.map(p => p.id === projectId ? { ...p, order: newOrder } : p);
-        next.sort((a, b) => {
-          const orderA = a.order ?? 999;
-          const orderB = b.order ?? 999;
-          if (orderA !== orderB) return orderA - orderB;
-          return (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0);
-        });
+        next.sort(sortProjects);
         return next;
       });
     } catch (e) {
@@ -2933,15 +2952,31 @@ const AdminPanel = () => {
                   />
                   <p className="text-[10px] text-primary/40 italic">* Selecciona las áreas para que el proyecto aparezca automáticamente en sus páginas correspondientes.</p>
                 </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-bold opacity-60 uppercase tracking-widest">URL Imagen Portada</label>
-                    <Input 
-                      placeholder="https://..."
-                      value={formData.mainImage} 
-                      onChange={e => setFormData({...formData, mainImage: e.target.value})} 
-                      required 
-                      className="border-primary/10 h-12 rounded-xl focus:ring-accent" 
-                    />
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <label className="text-sm font-bold opacity-60 uppercase tracking-widest">URL Imagen Portada</label>
+                      <Input 
+                        placeholder="https://..."
+                        value={formData.mainImage} 
+                        onChange={e => setFormData({...formData, mainImage: e.target.value})} 
+                        required 
+                        className="border-primary/10 h-12 rounded-xl focus:ring-accent" 
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-bold opacity-60 uppercase tracking-widest">Orden de prioridad (Opcional)</label>
+                      <Input 
+                        type="number"
+                        placeholder="Ej: 1, 2, 3..."
+                        value={formData.order ?? ''} 
+                        onChange={e => {
+                          const val = e.target.value;
+                          const num = Number(val);
+                          setFormData({...formData, order: val === '' || isNaN(num) ? undefined : num});
+                        }} 
+                        className="border-primary/10 h-12 rounded-xl focus:ring-accent" 
+                      />
+                    </div>
                   </div>
                 </div>
 
@@ -3584,12 +3619,7 @@ const AreaDetail = () => {
         );
 
         // Sort by order and date
-        related.sort((a, b) => {
-          const orderA = a.order ?? 999;
-          const orderB = b.order ?? 999;
-          if (orderA !== orderB) return orderA - orderB;
-          return (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0);
-        });
+        related.sort(sortProjects);
         setProjects(related.slice(0, 4)); // Show top 4
       } catch (error) {
         console.error("Error fetching related projects:", error);

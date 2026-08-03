@@ -1774,7 +1774,7 @@ const Contact = () => {
                   <Phone size={24} />
                 </div>
                 <div>
-                  <div className="font-bold text-primary">Telefono/WhatsApp</div>
+                  <div className="font-bold text-primary">Teléfono/WhatsApp</div>
                   <div className="text-primary/60 font-bold">+54 9 221 576-2168</div>
                 </div>
               </div>
@@ -1793,19 +1793,10 @@ const Contact = () => {
                 </div>
                 <div>
                   <div className="font-bold text-primary">Instagram</div>
-                  <div className="text-primary/60 font-bold text-sm space-y-1">
-                    <div>
-                      Arquitectura:{' '}
-                      <a href="https://www.instagram.com/espacioARKHY/" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">
-                        @espacioARKHY
-                      </a>
-                    </div>
-                    <div>
-                      Gestoría:{' '}
-                      <a href="https://www.instagram.com/akhydra_gestoria/" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">
-                        @akhydra_gestoria
-                      </a>
-                    </div>
+                  <div className="text-primary/60 font-bold text-sm">
+                    <a href="https://www.instagram.com/akhydra_ingenieria/" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">
+                      @akhydra_ingenieria
+                    </a>
                   </div>
                 </div>
               </div>

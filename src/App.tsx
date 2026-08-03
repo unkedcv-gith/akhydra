@@ -134,14 +134,14 @@ const AUTHORIZED_EMAILS = ["unkedcv@gmail.com"];
 
 const RenderMainArea = ({ mainArea, className = "" }: { mainArea: string, className?: string }) => {
   if (!mainArea) return null;
-  const areas = mainArea.split('/').map(a => a.trim());
+  const areas = mainArea.split('/').map(a => a.trim()).filter(Boolean);
   return (
     <div className={`flex items-center flex-wrap gap-x-1 ${className}`}>
       {areas.map((area, i) => (
         <React.Fragment key={i}>
           <span>{area}</span>
           {i < areas.length - 1 && (
-            <span className="mx-2 opacity-30 font-light text-current">|</span>
+            <span className="mx-1 opacity-50 text-[10px]">•</span>
           )}
         </React.Fragment>
       ))}
@@ -1665,16 +1665,16 @@ const Projects = () => {
                         className="w-[60%] max-w-[200px] h-auto opacity-20"
                       />
                     </div>
+                    <div className="absolute top-3 left-3 right-3 sm:top-4 sm:left-4 sm:right-4 z-10 flex justify-start pointer-events-none">
+                      <span className="inline-flex items-center px-2.5 py-1 rounded-xl bg-primary/45 backdrop-blur-md text-white border border-white/20 shadow-sm font-mono text-[10px] font-semibold uppercase tracking-wider max-w-full">
+                        <RenderMainArea mainArea={p.mainArea} />
+                      </span>
+                    </div>
                   </div>
                   <h3 className="text-base sm:text-lg lg:text-xl font-bold mb-1 text-primary group-hover:text-accent transition-colors line-clamp-2 leading-snug">{p.title}</h3>
-                  <div className="flex items-center gap-1.5 text-xs text-primary/50 font-mono font-bold mb-2.5">
+                  <div className="flex items-center gap-1.5 text-xs text-primary/50 font-mono font-bold">
                     <MapPin size={12} className="text-accent shrink-0" />
                     <span>{p.location}</span>
-                  </div>
-                  <div>
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-md bg-accent/10 text-accent border border-accent/20 font-mono text-[11px] font-bold uppercase tracking-wider">
-                      <RenderMainArea mainArea={p.mainArea} />
-                    </span>
                   </div>
                 </Link>
               ))
@@ -2091,24 +2091,24 @@ const PortfolioPage = () => {
                         />
                       </div>
                       <div className="absolute inset-0 bg-gradient-to-t from-primary/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                      <div className="absolute top-3 left-3 right-3 sm:top-4 sm:left-4 sm:right-4 z-10 flex justify-start pointer-events-none">
+                        <span className="inline-flex items-center px-2.5 py-1 rounded-xl bg-primary/45 backdrop-blur-md text-white border border-white/20 shadow-sm font-mono text-[10px] font-semibold uppercase tracking-wider max-w-full">
+                          <RenderMainArea mainArea={p.mainArea} />
+                        </span>
+                      </div>
                       <div className="absolute bottom-6 right-6 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
                         <div className="w-12 h-12 rounded-full bg-accent flex items-center justify-center text-white shadow-lg">
                           <ArrowRight size={20} />
                         </div>
                       </div>
                     </div>
-                    <div className="space-y-2 px-1">
+                    <div className="space-y-1.5 px-1">
                       <h3 className="text-lg sm:text-xl font-bold text-primary group-hover:text-accent transition-colors leading-tight line-clamp-2">
                         {p.title}
                       </h3>
                       <div className="flex items-center gap-1.5 text-primary/40 font-mono text-xs uppercase tracking-widest font-bold">
                         <MapPin size={12} className="text-accent" />
                         {p.location}
-                      </div>
-                      <div className="pt-1">
-                        <span className="inline-flex items-center px-3 py-1 rounded-md bg-accent/10 text-accent border border-accent/20 font-mono text-xs font-bold uppercase tracking-wider">
-                          <RenderMainArea mainArea={p.mainArea} />
-                        </span>
                       </div>
                     </div>
                   </Link>

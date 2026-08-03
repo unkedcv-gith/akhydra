@@ -1650,12 +1650,12 @@ const Projects = () => {
           <div className="grid md:grid-cols-3 gap-8">
             {projects.length > 0 ? (
               projects.map((p) => (
-                <Link key={p.id} to={`/proyecto/${p.id}`} className="group cursor-pointer">
-                  <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-6 shadow-xl">
+                <Link key={p.id} to={`/proyecto/${p.id}`} className="group cursor-pointer block">
+                  <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-4 shadow-lg group-hover:shadow-2xl transition-all duration-500 group-hover:-translate-y-1">
                     <img 
                       src={p.mainImage} 
                       alt={p.title} 
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       referrerPolicy="no-referrer"
                     />
                     <div className="absolute inset-0 bg-primary/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center pointer-events-none">
@@ -1665,14 +1665,17 @@ const Projects = () => {
                         className="w-[60%] max-w-[200px] h-auto opacity-20"
                       />
                     </div>
-                    <div className="absolute top-4 left-4 z-10">
-                      <Badge className="bg-white/95 text-accent backdrop-blur-sm border-none font-bold shadow-md">
-                        <RenderMainArea mainArea={p.mainArea} />
-                      </Badge>
-                    </div>
                   </div>
-                  <h3 className="text-base sm:text-lg lg:text-xl font-bold mb-2 text-primary group-hover:text-accent transition-colors line-clamp-2">{p.title}</h3>
-                  <p className="text-sm text-primary/50 font-mono font-bold">{p.location}</p>
+                  <h3 className="text-base sm:text-lg lg:text-xl font-bold mb-1 text-primary group-hover:text-accent transition-colors line-clamp-2 leading-snug">{p.title}</h3>
+                  <div className="flex items-center gap-1.5 text-xs text-primary/50 font-mono font-bold mb-2.5">
+                    <MapPin size={12} className="text-accent shrink-0" />
+                    <span>{p.location}</span>
+                  </div>
+                  <div>
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-md bg-accent/10 text-accent border border-accent/20 font-mono text-[11px] font-bold uppercase tracking-wider">
+                      <RenderMainArea mainArea={p.mainArea} />
+                    </span>
+                  </div>
                 </Link>
               ))
             ) : (
@@ -2082,11 +2085,11 @@ const PortfolioPage = () => {
                   viewport={{ once: true }}
                 >
                   <Link to={`/proyecto/${p.id}`} className="group block">
-                    <div className="relative aspect-[4/3] rounded-3xl overflow-hidden mb-8 shadow-2xl transition-all duration-500 group-hover:shadow-accent/10 group-hover:-translate-y-2">
+                    <div className="relative aspect-[4/3] rounded-3xl overflow-hidden mb-5 shadow-2xl transition-all duration-500 group-hover:shadow-accent/10 group-hover:-translate-y-1">
                       <img 
                         src={p.mainImage} 
                         alt={p.title} 
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                         referrerPolicy="no-referrer"
                       />
                       <div className="absolute inset-0 bg-primary/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center pointer-events-none">
@@ -2097,24 +2100,24 @@ const PortfolioPage = () => {
                         />
                       </div>
                       <div className="absolute inset-0 bg-gradient-to-t from-primary/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                      <div className="absolute top-6 left-6 z-10">
-                        <Badge className="bg-white text-accent border-none font-bold shadow-xl">
-                          <RenderMainArea mainArea={p.mainArea} />
-                        </Badge>
-                      </div>
                       <div className="absolute bottom-6 right-6 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
                         <div className="w-12 h-12 rounded-full bg-accent flex items-center justify-center text-white shadow-lg">
                           <ArrowRight size={20} />
                         </div>
                       </div>
                     </div>
-                    <div className="space-y-3 px-2">
-                      <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-primary group-hover:text-accent transition-colors leading-tight line-clamp-2">
+                    <div className="space-y-2 px-1">
+                      <h3 className="text-lg sm:text-xl font-bold text-primary group-hover:text-accent transition-colors leading-tight line-clamp-2">
                         {p.title}
                       </h3>
-                      <div className="flex items-center gap-2 text-primary/40 font-mono text-xs uppercase tracking-widest font-bold">
+                      <div className="flex items-center gap-1.5 text-primary/40 font-mono text-xs uppercase tracking-widest font-bold">
                         <MapPin size={12} className="text-accent" />
                         {p.location}
+                      </div>
+                      <div className="pt-1">
+                        <span className="inline-flex items-center px-3 py-1 rounded-md bg-accent/10 text-accent border border-accent/20 font-mono text-xs font-bold uppercase tracking-wider">
+                          <RenderMainArea mainArea={p.mainArea} />
+                        </span>
                       </div>
                     </div>
                   </Link>
@@ -3578,7 +3581,7 @@ const StaffPage = () => {
             Estamos en constante búsqueda de talentos apasionados por la ingeniería y el medio ambiente para transformar la infraestructura del futuro.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a href="mailto:info@akhydra.com.ar" className="w-full sm:w-auto">
+            <a href="mailto:ingenieria@akhydra.com.ar" className="w-full sm:w-auto">
               <Button size="lg" className="w-full bg-accent hover:bg-primary text-white font-bold h-16 px-12 rounded-2xl shadow-xl shadow-accent/20 transition-all flex items-center justify-center gap-3 group">
                 Enviar mi CV
                 <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />

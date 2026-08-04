@@ -140,7 +140,7 @@ export const areasData: AreaInfo[] = [
   {
     id: "hidraulica",
     name: "Hidráulica",
-    description: "Acueductos, canales, presas y control de inundaciones.",
+    description: "Cursos de agua, obras de arte, desagües pluviales, estudios hidrológicos. Prefactibilidades, aptitudes y permisos de obra hidráulica.",
     image: "https://akhydra.com.ar/wp-content/uploads/2021/06/hidraulica_01.png",
     fullDescription: "AKHYDRA tiene sus raíces en la ingeniería hidráulica. Diseñamos infraestructuras para el manejo inteligente del agua, desde sistemas de drenaje urbano hasta complejos hidromecánicos de gran escala.",
     gallery: [

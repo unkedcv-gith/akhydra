@@ -437,7 +437,7 @@ const Navbar = () => {
       title: "GESTORÍA",
       icon: UserIcon,
       items: [
-        { name: "Gestoría", id: "gestoria" },
+        { name: "Ambiental", id: "gestoria" },
       ]
     }
   ];
@@ -2331,7 +2331,7 @@ const ProjectDetailPage = () => {
                   <div className="group transition-all">
                     <div className="flex items-center gap-4 mb-4 text-accent">
                       <HardHat size={24} />
-                      <h3 className="text-2xl font-bold text-primary">Área Ambiental</h3>
+                      <h3 className="text-2xl font-bold text-primary">Área Ingeniería Ambiental</h3>
                     </div>
                     <div className="text-primary/70 text-lg leading-relaxed whitespace-pre-wrap pl-10 border-l-2 border-accent/20 group-hover:border-accent transition-colors">
                       {project.details.ambiental}
@@ -3672,14 +3672,45 @@ const AreaDetail = () => {
           className="space-y-8"
         >
           <h2 className="text-4xl font-bold text-primary">Nuestra Visión en <span className="text-accent">{area.name}</span></h2>
-          <div className="prose prose-lg text-primary/70 leading-relaxed max-w-none">
-            <p className="text-xl font-medium text-primary/90 mb-6">
+          <div className="prose prose-lg text-primary/70 leading-relaxed max-w-none space-y-6">
+            <p className="text-xl font-medium text-primary/90 leading-relaxed bg-accent/5 p-6 rounded-2xl border-l-4 border-accent">
               {area.fullDescription}
             </p>
-            <p>
-              En AKHYDRA, entendemos que cada desafío en {area.name} requiere una combinación única de rigurosidad científica, innovación tecnológica y compromiso ético. Nuestro equipo multidisciplinario trabaja integrando todas las variables para ofrecer soluciones eficientes y sostenibles.
-            </p>
+
+            {area.highlightText ? (
+              <div className="p-5 bg-accent/10 rounded-2xl border-l-4 border-accent text-primary font-bold text-lg leading-snug">
+                {area.highlightText}
+              </div>
+            ) : (
+              <p>
+                En AKHYDRA, entendemos que cada desafío en {area.name} requiere una combinación única de rigurosidad científica, innovación tecnológica y compromiso ético. Nuestro equipo multidisciplinario trabaja integrando todas las variables para ofrecer soluciones eficientes y sostenibles.
+              </p>
+            )}
           </div>
+
+          {area.sections && area.sections.length > 0 && (
+            <div className="space-y-6 pt-2">
+              {area.sections.map((sec, idx) => (
+                <div key={idx} className="bg-surface p-6 rounded-2xl border border-primary/10 shadow-sm space-y-4">
+                  <h3 className="text-2xl font-bold text-primary flex items-center gap-3">
+                    <span className="w-3 h-3 rounded-full bg-accent inline-block shrink-0" />
+                    {sec.title}
+                  </h3>
+                  {sec.items && sec.items.length > 0 && (
+                    <ul className="grid grid-cols-1 gap-2.5 pl-2 pt-1">
+                      {sec.items.map((item, itemIdx) => (
+                        <li key={itemIdx} className="flex items-start gap-3 text-primary/80 font-medium text-base">
+                          <CheckCircle2 size={18} className="text-accent shrink-0 mt-1" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+
           <div className="grid grid-cols-2 gap-4">
             <div className="p-6 bg-surface rounded-2xl border border-primary/5">
               <div className="text-3xl font-bold text-accent mb-2">100%</div>

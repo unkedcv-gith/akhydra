@@ -1,9 +1,16 @@
+export interface AreaSection {
+  title: string;
+  items?: string[];
+}
+
 export interface AreaInfo {
   id: string;
   name: string;
   description: string;
   image: string;
   fullDescription: string;
+  highlightText?: string;
+  sections?: AreaSection[];
   gallery?: string[];
 }
 
@@ -23,10 +30,40 @@ export const areasData: AreaInfo[] = [
   },
   {
     id: "ambiental",
-    name: "Ambiental",
-    description: "Estudios de impacto, gestión de residuos y soluciones sostenibles.",
+    name: "Ingeniería Ambiental",
+    description: "Estudios de impacto, gestión de residuos, diagnóstico y saneamiento ambiental.",
     image: "https://akhydra.com.ar/wp-content/uploads/2023/10/ambiental0001-scaled.jpg",
-    fullDescription: "Brindamos consultoría ambiental integral, realizando evaluaciones de impacto ambiental (EIA), planes de gestión de residuos y estrategias de mitigación para asegurar que cada proyecto cumpla con las normativas vigentes y respete el ecosistema local.",
+    fullDescription: "AKHYDRA Ingeniería Ambiental posee extensa experiencia en diseño, asesoramiento y ejecución de PGAyS en proyectos de gran envergadura, la particularidad de este servicio recae en la asistencia técnica al disponer de un grupo interdisciplinario de profesionales especializados en la materia.",
+    highlightText: "Implementamos leyes ambientales para cada provincia de la República Argentina",
+    sections: [
+      {
+        title: "Asesoría ambiental y social",
+        items: [
+          "Estudios de Impacto Ambiental y Social (EIA)",
+          "Estudios de Línea de Base Ambiental y Social",
+          "Relaciones Comunitarias y Responsabilidad Social",
+          "Informe Monitoreo Ambiental Anual (IMAA)"
+        ]
+      },
+      {
+        title: "Diagnóstico y Saneamiento Ambiental",
+        items: [
+          "Estudios de Hidrogeología Ambiental",
+          "Monitoreos de Calidad de Agua",
+          "Análisis de Suelo (Cromatografía y Físico-químico)",
+          "Análisis de Biodiversidad Animal y Vegetal",
+          "Estudios de Sitios Fase I y II",
+          "Caracterización de Plumas de Contaminación",
+          "Matriz de Riesgos",
+          "Restauración, Revegetación",
+          "Diseño e implementación de Sistema de Remediación in situ / ex situ"
+        ]
+      },
+      {
+        title: "Gestión de proyectos",
+        items: []
+      }
+    ],
     gallery: [
       "https://akhydra.com.ar/wp-content/uploads/2022/08/ambiental_001.jpeg",
       "https://akhydra.com.ar/wp-content/uploads/2022/08/ambiental_002.jpeg",
@@ -125,8 +162,8 @@ export const areasData: AreaInfo[] = [
   },
   {
     id: "gestoria",
-    name: "Gestoría",
-    description: "Tramitaciones municipales, provinciales y aprobación de planos.",
+    name: "Ambiental",
+    description: "Estudios de Impacto Ambiental y Social (EIA), Diagnóstico y Saneamiento Ambiental, Gestión de proyectos.",
     image: "http://akhydra.com.ar/wp-content/uploads/2023/07/gestoria_01.jpg",
     fullDescription: "Agilizamos el camino burocrático de sus proyectos. Nos encargamos de todas las gestiones ante entes reguladores, asegurando la obtención de permisos y habilitaciones en los tiempos planificados.",
     gallery: [

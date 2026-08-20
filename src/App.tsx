@@ -1193,7 +1193,7 @@ const Staff = () => {
         { name: "Fernández Suyai", role: "Ing. Civil", location: "Neuquén, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2021/06/Suyai_FERNANDEZ.png" },
         { name: "Gardella Martina", role: "Arquitecta", location: "La Plata, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2021/06/Martina_GARDELLA.png" },
         { name: "Giustozzi Santiago", role: "Arquitectura / Gestión Ambiental", location: "Exaltación de la Cruz, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2023/10/Santiago_Giustozzi.png" },
-        { name: "Guillen Amparo", role: "Ingeniera Civil", location: "La Plata, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2022/01/guillen_amparo.png" },
+        { name: "Guillen Amparo", role: "Ingeniera Civil", location: "Granada, Andalucía, España", image: "https://akhydra.com.ar/wp-content/uploads/2022/01/guillen_amparo.png" },
         { name: "Jurado Nayla", role: "Arquitecta", location: "La Plata, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2021/06/Nayla_JURADO.png" },
         { name: "Lalli Lisandro", role: "Ing. Civil", location: "La Plata, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2022/06/lisandro_lali.png" },
         { name: "Larocca Gustavo", role: "Ing. Mecánico", location: "Barcelona, España", image: "https://akhydra.com.ar/wp-content/uploads/2021/06/Gustavo_LAROCCA_1.png" },
@@ -2076,7 +2076,7 @@ const Footer = () => {
 const PortfolioPage = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
-  const [visibleCount, setVisibleCount] = useState(12);
+  const [visibleCount, setVisibleCount] = useState(9);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -2176,11 +2176,12 @@ const PortfolioPage = () => {
           {projects.length > visibleCount && (
             <div className="flex justify-center mt-16">
               <Button 
-                onClick={() => setVisibleCount(v => v + 12)}
-                variant="outline"
-                className="px-8 h-12 rounded-xl border-accent/20 text-accent hover:bg-accent hover:text-white font-bold tracking-widest uppercase transition-all duration-300"
+                onClick={() => setVisibleCount(v => v + 6)}
+                size="lg"
+                className="bg-accent hover:bg-accent/90 text-white font-bold text-base px-8 py-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 group cursor-pointer"
               >
-                Cargar más proyectos
+                Mostrar más proyectos
+                <ChevronDown size={20} className="group-hover:translate-y-1 transition-transform" />
               </Button>
             </div>
           )}

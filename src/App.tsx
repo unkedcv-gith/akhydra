@@ -428,8 +428,8 @@ const Navbar = () => {
       title: "AMBIENTE",
       icon: Leaf,
       items: [
-        { name: "Agrimensura Ambiental", id: "agrimensura" },
-        { name: "Gestoría Ambiental", id: "gestoria" },
+        { name: "Agrimensura", id: "agrimensura" },
+        { name: "Ingeniería Ambiental", id: "ambiental" },
         { name: "Higiene & Seguridad", id: "higiene-seguridad" },
       ]
     },
@@ -3686,8 +3686,8 @@ const AreaDetail = () => {
               <div className="text-xs uppercase tracking-widest font-bold text-primary/40">Compromiso Técnico</div>
             </div>
             <div className="p-6 bg-surface rounded-2xl border border-primary/5">
-              <div className="text-3xl font-bold text-accent mb-2">ISO 9001</div>
-              <div className="text-xs uppercase tracking-widest font-bold text-primary/40">Calidad Certificada</div>
+              <div className="text-3xl font-bold text-accent mb-2">100%</div>
+              <div className="text-xs uppercase tracking-widest font-bold text-primary/40">Responsabilidad</div>
             </div>
           </div>
         </motion.div>

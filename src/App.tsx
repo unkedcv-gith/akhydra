@@ -1288,6 +1288,58 @@ const Staff = () => {
           </motion.div>
         </div>
 
+        {/* Featured: Area Gestoría */}
+        <div className="mb-24">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="grid md:grid-cols-3 gap-12 items-center bg-surface/30 p-8 md:p-12 rounded-[40px] border border-primary/5 shadow-inner"
+          >
+            <div className="md:col-span-1 flex flex-col items-center text-center">
+              <div className="w-48 h-48 rounded-full border-8 border-white shadow-2xl overflow-hidden bg-white mb-6 relative group">
+                <img 
+                  src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400" 
+                  alt="Camila Rocha" 
+                  className="w-full h-full object-cover filter grayscale transition-transform duration-700 group-hover:scale-110"
+                  referrerPolicy="no-referrer"
+                />
+                <div className="absolute inset-0 bg-accent/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+              </div>
+              <h4 className="text-2xl font-bold text-primary mb-1">Camila Rocha</h4>
+              <Badge className="bg-accent text-white border-none font-bold px-4 py-1">Encargada</Badge>
+              <div className="flex items-center gap-2 mt-4 text-primary/40 font-mono text-[10px] font-bold uppercase tracking-widest">
+                <MapPin size={12} className="text-accent" />
+                La Plata, Argentina
+              </div>
+            </div>
+            <div className="md:col-span-2 space-y-6">
+              <div className="space-y-4">
+                <h3 className="text-3xl font-bold text-primary flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-accent text-white flex items-center justify-center shadow-lg shadow-accent/20">
+                    <Briefcase size={20} />
+                  </div>
+                  ÁREA GESTORÍA
+                </h3>
+                <div className="w-20 h-1 bg-accent rounded-full" />
+              </div>
+              <p className="text-primary/70 text-lg leading-relaxed font-medium">
+                Esta sección esta a cargo de Camila Rocha quien prepara las presentaciones ante los organismos y realiza los seguimientos de los trámites administrativos. Así mismo representa a nuestros clientes ante los diferentes organismos siendo su labor principal el asesoramiento.
+              </p>
+              <div className="pt-6 grid grid-cols-2 gap-4">
+                <div className="p-4 rounded-2xl bg-white/50 border border-primary/5 flex items-center gap-3">
+                  <CheckCircle2 className="text-accent shrink-0" size={20} />
+                  <span className="text-sm font-bold text-primary/70">Gestión ante organismos</span>
+                </div>
+                <div className="p-4 rounded-2xl bg-white/50 border border-primary/5 flex items-center gap-3">
+                  <CheckCircle2 className="text-accent shrink-0" size={20} />
+                  <span className="text-sm font-bold text-primary/70">Administración de Documentación</span>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
         <div className="space-y-24">
           {categories.map((cat, idx) => (
             <div key={idx} className="space-y-12">
@@ -1783,7 +1835,7 @@ const Contact = () => {
                   <MapPin size={24} />
                 </div>
                 <div>
-                  <div className="font-bold text-primary">Ubicación</div>
+                  <div className="font-bold text-primary">Domicilio Postal</div>
                   <div className="text-primary/60 font-bold">Calle 17 N° 319, La Plata, Buenos Aires, Argentina, CP 1900</div>
                 </div>
               </div>

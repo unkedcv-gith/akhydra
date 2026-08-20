@@ -50,6 +50,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import diegoImg from './assets/images/diego.png';
 import juanImg from './assets/images/juan.png';
+import camilaImg from './assets/Camila Rocha.jpeg';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -1299,7 +1300,7 @@ const Staff = () => {
             <div className="md:col-span-1 flex flex-col items-center text-center">
               <div className="w-48 h-48 rounded-full border-8 border-white shadow-2xl overflow-hidden bg-white mb-6 relative group">
                 <img 
-                  src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400" 
+                  src={camilaImg} 
                   alt="Camila Rocha" 
                   className="w-full h-full object-cover filter grayscale transition-transform duration-700 group-hover:scale-110"
                   referrerPolicy="no-referrer"

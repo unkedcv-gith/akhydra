@@ -1,5 +1,6 @@
 export interface AreaSection {
   title: string;
+  description?: string;
   items?: string[];
 }
 
@@ -251,9 +252,40 @@ export const areasData: AreaInfo[] = [
   {
     id: "vial",
     name: "Vial",
-    description: "Diseño geométrico de carreteras, pavimentos y puentes.",
+    description: "Realizamos proyectos integrales de pavimentación urbana y rural y evaluamos el estado de pavimentos rígidos y flexibles.",
     image: "http://akhydra.com.ar/wp-content/uploads/2022/11/Vial-1-1024x576.jpeg",
-    fullDescription: "Planificamos y diseñamos la infraestructura del transporte. Nos especializamos en la ingeniería de pavimentos rígidos y flexibles, diseño vial urbano y rural, y proyectos de señalización integral.",
+    fullDescription: "Con respecto a la ingeniería vial les presentamos nuestros servicios:",
+    sections: [
+      {
+        title: "Proyectos integrales de pavimentación urbana y rural",
+        items: [
+          "RELEVAMIENTOS PLANIALTIMÉTRICOS GEORREFERENCIADOS – MDT.",
+          "PLANOS GENERALES Y DE DETALLES.",
+          "DISEÑO ESTRUCTURAL DEL PAVIMENTO.",
+          "ESPECIFICACIONES TÉCNICAS.",
+          "CÓMPUTOS MÉTRICOS Y PRESUPUESTO.",
+          "ANÁLISIS DE PRECIOS.",
+          "CONFECCIÓN DE PLIEGOS LICITATORIOS."
+        ]
+      },
+      {
+        title: "Evaluación de estado de pavimentos rígidos y flexibles",
+        description: "Se evalúa el estado actual del pavimento utilizando metodología estandarizada por la Dirección Nacional de Vialidad, y en función de los datos recolectados se establecen políticas de intervención.",
+        items: [
+          "ESTUDIOS Y CLASIFICACIONES DE REDES VIALES.",
+          "EVALUACIÓN DE PARÁMETROS ESTRUCTURALES.",
+          "CÁLCULO DE REHABILITACIÓN Y REFUERZO DE PAVIMENTOS.",
+          "ESTUDIOS GEOTÉCNICOS Y DE MATERIALES VIALES."
+        ]
+      },
+      {
+        title: "Análisis y estudio técnico-económico de propuestas y alternativas de proyectos viales.",
+        items: [
+          "ASESORAMIENTO PARA LA ELABORACIÓN DE PLANES DIRECTORES VIALES EN REDES DE CAMINOS RURALES.",
+          "ANÁLISIS GEOTÉCNICOS DE SUELOS LOCALES Y ESTUDIOS TÉCNICO-ECONÓMICOS DE PROPUESTAS DE ESTABILIZACIÓN Y MEJORA DE CAMINOS RURALES."
+        ]
+      }
+    ],
     gallery: [
       "http://akhydra.com.ar/wp-content/uploads/2022/11/Vial-2-1024x472.jpeg",
       "http://akhydra.com.ar/wp-content/uploads/2022/11/Vial-3-1024x471.jpeg",

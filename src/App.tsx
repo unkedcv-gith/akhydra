@@ -3786,6 +3786,11 @@ const AreaDetail = () => {
                     <span className="w-3 h-3 rounded-full bg-accent inline-block shrink-0" />
                     {sec.title}
                   </h3>
+                  {sec.description && (
+                    <p className="text-primary/80 font-medium text-base leading-relaxed pl-6 border-l-2 border-accent/20">
+                      {sec.description}
+                    </p>
+                  )}
                   {sec.items && sec.items.length > 0 && (
                     <ul className="grid grid-cols-1 gap-2.5 pl-2 pt-1">
                       {sec.items.map((item, itemIdx) => (

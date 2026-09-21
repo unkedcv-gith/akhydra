@@ -405,7 +405,12 @@ const Navbar = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const location = useLocation();
 
-  const menuAreaCategories = [
+  const menuAreaCategories: Array<{
+    title: string;
+    icon: any;
+    items?: { name: string; id: string }[];
+    id?: string;
+  }> = [
     {
       title: "INFRAESTRUCTURA & RECURSOS",
       icon: Droplets,
@@ -427,20 +432,18 @@ const Navbar = () => {
       ]
     },
     {
-      title: "AMBIENTE",
+      title: "AUDITORÍA INTEGRAL",
       icon: Leaf,
       items: [
         { name: "Agrimensura", id: "agrimensura" },
-        { name: "Ingeniería Ambiental", id: "ambiental" },
+        { name: "Ambiente", id: "ambiente" },
         { name: "Higiene & Seguridad", id: "higiene-seguridad" },
       ]
     },
     {
       title: "GESTORÍA",
       icon: UserIcon,
-      items: [
-        { name: "Gestoría", id: "gestoria" },
-      ]
+      id: "gestoria"
     }
   ];
 
@@ -496,6 +499,19 @@ const Navbar = () => {
                   >
                     {menuAreaCategories.map((cat, idx) => {
                       const IconComp = cat.icon;
+                      if (cat.id) {
+                        return (
+                          <Link
+                            key={idx}
+                            to={`/area/${cat.id}`}
+                            className="flex items-center gap-2 text-accent hover:text-accent/80 font-mono text-[11px] font-bold uppercase tracking-wider border-b border-primary/10 pb-1.5 hover:translate-x-1 transition-all"
+                            onClick={() => setAreasOpen(false)}
+                          >
+                            <IconComp size={14} className="text-accent shrink-0" />
+                            <span>{cat.title}</span>
+                          </Link>
+                        );
+                      }
                       return (
                         <div key={idx} className="space-y-2">
                           <div className="flex items-center gap-2 text-accent font-mono text-[11px] font-bold uppercase tracking-wider border-b border-primary/10 pb-1.5">
@@ -503,7 +519,7 @@ const Navbar = () => {
                             <span>{cat.title}</span>
                           </div>
                           <div className="grid grid-cols-1 gap-1 pl-1">
-                            {cat.items.map((item) => (
+                            {cat.items?.map((item) => (
                               <Link
                                 key={item.id + item.name}
                                 to={`/area/${item.id}`}
@@ -584,6 +600,22 @@ const Navbar = () => {
                     >
                       {menuAreaCategories.map((cat, idx) => {
                         const IconComp = cat.icon;
+                        if (cat.id) {
+                          return (
+                            <Link
+                              key={idx}
+                              to={`/area/${cat.id}`}
+                              className="flex items-center gap-2 text-accent font-mono text-xs font-bold uppercase tracking-wider py-1 hover:text-accent/80"
+                              onClick={() => {
+                                setAreasOpen(false);
+                                setMobileMenuOpen(false);
+                              }}
+                            >
+                              <IconComp size={14} className="text-accent shrink-0" />
+                              <span>{cat.title}</span>
+                            </Link>
+                          );
+                        }
                         return (
                           <div key={idx} className="space-y-1.5">
                             <div className="flex items-center gap-2 text-accent font-mono text-xs font-bold uppercase tracking-wider">
@@ -591,7 +623,7 @@ const Navbar = () => {
                               <span>{cat.title}</span>
                             </div>
                             <div className="flex flex-col gap-1.5 pl-3 border-l-2 border-accent/20">
-                              {cat.items.map((item) => (
+                              {cat.items?.map((item) => (
                                 <Link
                                   key={item.id + item.name}
                                   to={`/area/${item.id}`}
@@ -2027,7 +2059,7 @@ const Footer = () => {
               <li><Link to="/area/eng-renovables" className="hover:text-accent transition-colors">Sistemas de Riego</Link></li>
               <li><Link to="/area/vial" className="hover:text-accent transition-colors">Infraestructura Vial</Link></li>
               <li><Link to="/area/sanitaria" className="hover:text-accent transition-colors">Gestión de Aguas</Link></li>
-              <li><Link to="/area/ambiental" className="hover:text-accent transition-colors">Estudio de Impacto Ambiental (EIA)</Link></li>
+              <li><Link to="/area/ambiente" className="hover:text-accent transition-colors">Estudio de Impacto Ambiental (EIA)</Link></li>
             </ul>
           </div>
           <div>
@@ -2387,7 +2419,7 @@ const ProjectDetailPage = () => {
                   <div className="group transition-all">
                     <div className="flex items-center gap-4 mb-4 text-accent">
                       <HardHat size={24} />
-                      <h3 className="text-2xl font-bold text-primary">Área Ingeniería Ambiental</h3>
+                      <h3 className="text-2xl font-bold text-primary">Área Ambiente</h3>
                     </div>
                     <div className="text-primary/70 text-lg leading-relaxed whitespace-pre-wrap pl-10 border-l-2 border-accent/20 group-hover:border-accent transition-colors">
                       {project.details.ambiental}
@@ -3646,7 +3678,7 @@ const StaffPage = () => {
 
 const AreaDetail = () => {
   const { areaId } = useParams();
-  const area = areasData.find(a => a.id === areaId);
+  const area = areasData.find(a => a.id === areaId || (areaId === 'ambiental' && a.id === 'ambiente'));
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -3663,10 +3695,12 @@ const AreaDetail = () => {
         
         // Filter projects that match this area in their mainArea string (case insensitive search)
         const areaNameLower = area.name.toLowerCase();
-        const related = projectsData.filter(p => 
-          p.mainArea.toLowerCase().includes(areaNameLower) || 
-          areaNameLower.includes(p.mainArea.toLowerCase())
-        );
+        const related = projectsData.filter(p => {
+          const pArea = p.mainArea.toLowerCase();
+          return pArea.includes(areaNameLower) || 
+            areaNameLower.includes(pArea) ||
+            ((area.id === 'ambiente' || area.id === 'ambiental') && (pArea.includes('ambiental') || pArea.includes('ambiente')));
+        });
 
         // Sort by order and date
         related.sort(sortProjects);

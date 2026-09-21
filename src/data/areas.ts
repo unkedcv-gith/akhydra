@@ -36,11 +36,11 @@ export const areasData: AreaInfo[] = [
     ]
   },
   {
-    id: "ambiental",
-    name: "Ingeniería Ambiental",
+    id: "ambiente",
+    name: "Ambiente",
     description: "Estudios de impacto, gestión de residuos, diagnóstico y saneamiento ambiental.",
     image: "https://akhydra.com.ar/wp-content/uploads/2023/10/ambiental0001-scaled.jpg",
-    fullDescription: "AKHYDRA Ingeniería Ambiental posee extensa experiencia en diseño, asesoramiento y ejecución de PGAyS en proyectos de gran envergadura, la particularidad de este servicio recae en la asistencia técnica al disponer de un grupo interdisciplinario de profesionales especializados en la materia.",
+    fullDescription: "AKHYDRA Ambiente posee extensa experiencia en diseño, asesoramiento y ejecución de PGAyS en proyectos de gran envergadura, la particularidad de este servicio recae en la asistencia técnica al disponer de un grupo interdisciplinario de profesionales especializados en la materia.",
     highlightText: "Implementamos leyes ambientales para cada provincia de la República Argentina",
     sections: [
       {

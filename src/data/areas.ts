@@ -181,8 +181,8 @@ export const areasData: AreaInfo[] = [
   },
   {
     id: "gestoria",
-    name: "Ambiental",
-    description: "Estudios de Impacto Ambiental y Social (EIA), Diagnóstico y Saneamiento Ambiental, Gestión de proyectos.",
+    name: "Gestoría",
+    description: "Gestión de trámites, permisos y habilitaciones ante entes reguladores.",
     image: "http://akhydra.com.ar/wp-content/uploads/2023/07/gestoria_01.jpg",
     fullDescription: "Agilizamos el camino burocrático de sus proyectos. Nos encargamos de todas las gestiones ante entes reguladores, asegurando la obtención de permisos y habilitaciones en los tiempos planificados.",
     gallery: [

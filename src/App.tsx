@@ -439,7 +439,7 @@ const Navbar = () => {
       title: "GESTORÍA",
       icon: UserIcon,
       items: [
-        { name: "Ambiental", id: "gestoria" },
+        { name: "Gestoría", id: "gestoria" },
       ]
     }
   ];

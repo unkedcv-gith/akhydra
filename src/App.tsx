@@ -51,6 +51,7 @@ import { Card } from '@/components/ui/card';
 import diegoImg from './assets/images/diego.png';
 import juanImg from './assets/images/juan.png';
 import camilaImg from './assets/Camila Rocha.jpeg';
+import macarenaImg from './assets/macarena.jpeg';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -1209,10 +1210,11 @@ const Staff = () => {
         { name: "Pugliese Irina", role: "Lic. en Geología", location: "Nayarit, México", image: "https://akhydra.com.ar/wp-content/uploads/2021/06/Irina_PUGLIESE.png" },
         { name: "Szychowski Selva", role: "Arquitecta", location: "San José, Costa Rica", image: "https://akhydra.com.ar/wp-content/uploads/2021/06/Selva_SZYCHOWSKI.png" },
         { name: "Terpolilli Diego", role: "Agrimensor", location: "La Plata, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2021/06/Diego_TERPOLILLI.png" },
-        { name: "Terré María Florencia", role: "Ingeniero Civil", location: "Córdoba, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2024/10/terre.png" },
+        { name: "Terré María Florencia", role: "Ingeniera Civil", location: "Córdoba, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2024/10/terre.png" },
         { name: "Tiseira Lucas", role: "Ingeniero Civil", location: "La Plata, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2022/06/lucas_tiseira.png" },
         { name: "Tkaczyk Carolina", role: "Ingeniera Ambiental", location: "Córdoba, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2022/01/tkaczyk_carolina.png" },
-        { name: "Tornari Maximiliano", role: "Ing. Construcciones/Civil", location: "La Plata, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2021/06/Maximiliani_TORNARI.png" }
+        { name: "Torelli Macarena", role: "Arquitecta", location: "La Plata, Argentina", image: macarenaImg },
+        { name: "Farré Tornari Maximiliano", role: "Ing. Construcciones/Civil", location: "La Plata, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2021/06/Maximiliani_TORNARI.png" }
       ]
     }
   ];
@@ -3775,6 +3777,33 @@ const AreaDetail = () => {
               <div className="text-xs uppercase tracking-widest font-bold text-primary/40">Responsabilidad</div>
             </div>
           </div>
+
+          {area.externalLinks && area.externalLinks.length > 0 && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
+              {area.externalLinks.map((linkItem, idx) => (
+                <a
+                  key={idx}
+                  href={linkItem.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 p-4 bg-surface hover:bg-accent/5 rounded-2xl border border-primary/10 transition-all duration-300 group text-primary shadow-sm hover:border-accent/30"
+                >
+                  <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center text-accent group-hover:scale-110 transition-transform shrink-0">
+                    {linkItem.type === 'instagram' ? <Instagram size={20} /> : <Globe size={20} />}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="text-[10px] font-bold text-primary/40 uppercase tracking-widest">
+                      {linkItem.type === 'instagram' ? 'Instagram' : 'Sitio Web'}
+                    </div>
+                    <div className="text-xs font-semibold truncate text-primary group-hover:text-accent transition-colors">
+                      {linkItem.label}
+                    </div>
+                  </div>
+                  <ExternalLink size={14} className="text-primary/30 group-hover:text-accent transition-colors shrink-0" />
+                </a>
+              ))}
+            </div>
+          )}
         </motion.div>
 
         <div className="space-y-8">

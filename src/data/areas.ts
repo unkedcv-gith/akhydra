@@ -3,6 +3,12 @@ export interface AreaSection {
   items?: string[];
 }
 
+export interface AreaLink {
+  type: 'website' | 'instagram' | 'other';
+  label: string;
+  url: string;
+}
+
 export interface AreaInfo {
   id: string;
   name: string;
@@ -12,6 +18,7 @@ export interface AreaInfo {
   highlightText?: string;
   sections?: AreaSection[];
   gallery?: string[];
+  externalLinks?: AreaLink[];
 }
 
 export const areasData: AreaInfo[] = [
@@ -78,6 +85,18 @@ export const areasData: AreaInfo[] = [
     description: "Diseño espacial, funcional y estético de edificaciones dinámicas.",
     image: "https://akhydra.com.ar/wp-content/uploads/2021/05/arquitectura_1.jpg",
     fullDescription: "Integramos la ingeniería con la arquitectura para crear espacios que no solo sean estructuralmente sólidos, sino también funcionales y estéticamente inspiradores, optimizando el uso de recursos y mejorando la calidad de vida de los usuarios.",
+    externalLinks: [
+      {
+        type: 'website',
+        label: 'https://espacioarkhy.com.ar/',
+        url: 'https://espacioarkhy.com.ar/'
+      },
+      {
+        type: 'instagram',
+        label: 'https://www.instagram.com/espacioarkhy/',
+        url: 'https://www.instagram.com/espacioarkhy/'
+      }
+    ],
     gallery: [
       "https://akhydra.com.ar/wp-content/uploads/2021/05/arquitectura_3.jpg",
       "https://akhydra.com.ar/wp-content/uploads/2021/05/arquitectura_2.jpg",

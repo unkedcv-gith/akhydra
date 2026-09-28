@@ -1215,15 +1215,14 @@ const Staff = () => {
       members: [
         { name: "Balduzzi Sofía", role: "Arquitecta", location: "La Plata, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2021/06/Sofia_balduzzi.png" },
         { name: "Bazán Agustina", role: "Ing. Civil/Hidráulica", location: "Córdoba, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2021/06/agustina_bazan.png" },
-        { name: "Bellomo Marina", role: "Contadora", location: "Olavarría, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2021/06/Marina_BELLOMO.png" },
         { name: "Blasetti Renata", role: "Ing. Civil/Hidráulica", location: "La Plata, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2022/04/blasetti.png" },
         { name: "Cabrera Nahuel", role: "Arquitecto", location: "La Plata, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2021/11/Nahuel_Cabrera.png" },
         { name: "Camacho Richard", role: "Jefe de Proyectos", location: "Cochabamba, Bolivia", image: "https://akhydra.com.ar/wp-content/uploads/2021/06/Richard_CAMACHO.png" },
-        { name: "Carbonetti J. Carlos", role: "Gerente Comercial", location: "Saladillo, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2021/06/Juan_C_CARBONETTI.png" },
         { name: "Ciancio Magdalena", role: "Bióloga", location: "La Plata, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2025/06/magadalena_ciancio.png" },
         { name: "Defelipe Guillermo", role: "Ing. Vías de Comunicación", location: "La Plata, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2021/06/Guillermo_DEFELIPE.png" },
         { name: "Dionisio Delfina", role: "Arquitectura", location: "La Plata, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2021/06/Delfina_DIONISIO.png" },
         { name: "Edwin Florencia Paula", role: "Recursos Naturales y Medio Ambiente", location: "Mendoza, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2024/09/f_edwin.png" },
+        { name: "Farré Tornari Maximiliano", role: "Ing. Construcciones/Civil", location: "La Plata, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2021/06/Maximiliani_TORNARI.png" },
         { name: "Fernández Suyai", role: "Ing. Civil", location: "Neuquén, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2021/06/Suyai_FERNANDEZ.png" },
         { name: "Gardella Martina", role: "Arquitecta", location: "La Plata, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2021/06/Martina_GARDELLA.png" },
         { name: "Giustozzi Santiago", role: "Arquitectura / Gestión Ambiental", location: "Exaltación de la Cruz, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2023/10/Santiago_Giustozzi.png" },
@@ -1238,15 +1237,13 @@ const Staff = () => {
         { name: "Neme Martín", role: "Ing. Hidráulico", location: "Chivilcoy, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2021/06/MartinNEME.png" },
         { name: "Panigatti Delfina", role: "Ing. Hidráulica", location: "La Plata, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2021/11/Delfina_Panigatti.png" },
         { name: "Pérez Miguel", role: "Ingeniero Civil", location: "Córdoba, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2021/06/miguel-perez.png" },
-        { name: "Posse Fernando", role: "Proyecto y Construcción", location: "La Plata, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2021/06/Fernando_POSSE.png" },
         { name: "Pugliese Irina", role: "Lic. en Geología", location: "Nayarit, México", image: "https://akhydra.com.ar/wp-content/uploads/2021/06/Irina_PUGLIESE.png" },
         { name: "Szychowski Selva", role: "Arquitecta", location: "San José, Costa Rica", image: "https://akhydra.com.ar/wp-content/uploads/2021/06/Selva_SZYCHOWSKI.png" },
         { name: "Terpolilli Diego", role: "Agrimensor", location: "La Plata, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2021/06/Diego_TERPOLILLI.png" },
         { name: "Terré María Florencia", role: "Ingeniera Civil", location: "Córdoba, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2024/10/terre.png" },
         { name: "Tiseira Lucas", role: "Ingeniero Civil", location: "La Plata, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2022/06/lucas_tiseira.png" },
         { name: "Tkaczyk Carolina", role: "Ingeniera Ambiental", location: "Córdoba, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2022/01/tkaczyk_carolina.png" },
-        { name: "Torelli Macarena", role: "Arquitecta", location: "La Plata, Argentina", image: macarenaImg },
-        { name: "Farré Tornari Maximiliano", role: "Ing. Construcciones/Civil", location: "La Plata, Argentina", image: "https://akhydra.com.ar/wp-content/uploads/2021/06/Maximiliani_TORNARI.png" }
+        { name: "Torelli Macarena", role: "Arquitecta", location: "La Plata, Argentina", image: macarenaImg }
       ]
     }
   ];
@@ -1281,7 +1278,7 @@ const Staff = () => {
                 <img 
                   src="https://akhydra.com.ar/wp-content/uploads/2025/06/magadalena_ciancio.png" 
                   alt="Ciancio Magdalena" 
-                  className="w-full h-full object-cover filter grayscale transition-transform duration-700 group-hover:scale-110"
+                  className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110"
                   referrerPolicy="no-referrer"
                 />
                 <div className="absolute inset-0 bg-accent/10 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -1336,7 +1333,7 @@ const Staff = () => {
                 <img 
                   src={camilaImg} 
                   alt="Camila Rocha" 
-                  className="w-full h-full object-cover filter grayscale transition-transform duration-700 group-hover:scale-110"
+                  className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110"
                   referrerPolicy="no-referrer"
                 />
                 <div className="absolute inset-0 bg-accent/10 opacity-0 group-hover:opacity-100 transition-opacity" />
